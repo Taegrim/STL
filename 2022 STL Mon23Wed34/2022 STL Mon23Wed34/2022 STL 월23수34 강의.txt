@@ -59,3 +59,47 @@ void save(std::string_view file_name)
 	copy(v.begin(), v.end(), std::ostream_iterator<char>{out});
 
 }
+파일 이름 : stl.cpp, 파일 크기 : 554
+저장 시간 : 2022-03-07 10:39:05 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 3. 2 수34						월23 수34				(1주 1일)
+// 
+// save 함수를 분리하자
+//-----------------------------------------------------------------------------
+
+#include "save.h"
+
+// 코딩할 내용 - "stl.cpp" 를 읽어 강의저장 파일에 덧붙인다.
+
+void save( std::string_view );
+
+int main()
+{
+	//std::cout << "string의 크기 - " << sizeof(std::string) << std::endl;
+	//std::cout << "string_view의 크기 - " << sizeof(std::string_view) << std::endl;
+
+	save("stl.cpp");
+}파일 이름 : stl.cpp, 파일 크기 : 575
+저장 시간 : 2022-03-07 10:40:07 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 3. 2 수34						월23 수34				(1주 1일)
+// 
+// save 함수를 분리하자
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include "save.h"
+
+// 코딩할 내용 - "stl.cpp" 를 읽어 강의저장 파일에 덧붙인다.
+
+void save( std::string_view );
+
+int main()
+{
+	//std::cout << "string의 크기 - " << sizeof(std::string) << std::endl;
+	//std::cout << "string_view의 크기 - " << sizeof(std::string_view) << std::endl;
+
+	save("stl.cpp");
+}

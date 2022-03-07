@@ -1,0 +1,131 @@
+파일 이름 : stl.cpp, 파일 크기 : 432
+저장 시간 : 2022-03-07 10:47:19 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 3. 7 월23						월23 수34				(1주 2일)
+// 
+// 할 일 - save 함수를 분리하자
+// 
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include "save.h"
+
+// 코딩할 내용 - "stl.cpp" 를 읽어 강의저장 파일에 덧붙인다.
+
+void save( std::string_view );
+
+int main()
+{
+
+	save("stl.cpp");
+}
+
+// [문제] main의 코드를 변경하면 안된다
+// a와 b의 값이 바뀌어야 한다.
+
+void change(int &a, int &b)
+{
+	int temp{ a };
+	a = b;
+	b = temp;
+}
+
+
+int main()
+{
+	int a{ 1 };
+	int b{ 2 };
+
+	change(a, b);
+	std::cout << a << ", " << b << std::endl;
+
+	//save("save.cpp");
+}
+
+
+#include <iostream>
+//#include "save.h"
+
+// [문제] main의 코드를 변경하면 안된다
+// a와 b의 값이 바뀌어야 한다.
+
+class Dog
+{
+public:
+	Dog(int num) : number(num) {}
+	~Dog() {}
+
+	int getNumber() { return number; }
+	void setNumber(int num) { number = num; }
+
+
+	friend std::ostream& operator<<(std::ostream& out, const Dog& A) {
+		out << A.number;
+		return out;
+	}
+		
+private:
+	int number;
+};
+
+
+void change(Dog &a, Dog &b)
+{
+	Dog temp{ a.getNumber() };
+	a.setNumber(b.getNumber());
+	b.setNumber(temp.getNumber());
+}
+
+
+int main()
+{
+	Dog a{ 1 };
+	Dog b{ 2 };
+
+	change(a, b);
+	std::cout << a << ", " << b << std::endl;
+
+	//save("save.cpp");
+}
+
+
+#include <iostream>
+//#include "save.h"
+
+// [문제] main의 코드를 변경하면 안된다
+// a와 b의 값이 바뀌어야 한다.
+
+class Dog{
+public:
+	Dog(int num) : number{ num } {}
+
+	friend std::ostream& operator<<(std::ostream&, const Dog&);
+private:
+	int number;
+};
+
+std::ostream& operator<<(std::ostream& out, const Dog& A) {
+	out << A.number;
+	return out;
+}
+
+
+void change(Dog &a, Dog &b)
+{
+	Dog temp{ a };
+	a = b; // a.operator=(b);
+	b = temp;
+}
+
+
+int main()
+{
+	Dog a{ 1 };
+	Dog b{ 2 };
+
+	change(a, b);
+	std::cout << a << ", " << b << std::endl;
+
+	//save("save.cpp");
+}
