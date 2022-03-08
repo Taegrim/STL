@@ -7,16 +7,18 @@
 // 2022. 3. 7											Programmed by Taegrim
 //-----------------------------------------------------------------------------
 
-/*
-
 #include <iostream>
-#include "save.h"
 #include <string_view>
+#include <filesystem>
+#include <fstream>
+#include <chrono>
+#include <algorithm>
+#include "save.h"
 
-void save(std::string_view file_name)
+void save(std::string_view fname)
 {
 	// 읽을 파일을 연다.
-	std::ifstream in{ file_name.data() };
+	std::ifstream in{ fname.data() };
 
 	// 저장할 파일도 덧붙이기 모드로 연다.
 	// 상대경로를 활용해 저장하는 위치를 변경한다.
@@ -30,7 +32,7 @@ void save(std::string_view file_name)
 
 
 	// 저장할 파일의 크기와 현재 시간을 파일에 기록한다.
-	out << "파일 이름 : " << file_name << ", 파일 크기 : " << std::filesystem::file_size(file_name) << std::endl;
+	out << "파일 이름 : " << fname << ", 파일 크기 : " << std::filesystem::file_size(fname) << std::endl;
 	// file_size 는 c++17에 있는 기능
 	out << "저장 시간 : " << std::chrono::zoned_time("Asia/Seoul", time) << std::endl;
 	// zoned_time 은 c++20 에 있는 기능
@@ -43,5 +45,3 @@ void save(std::string_view file_name)
 	copy(v.begin(), v.end(), std::ostream_iterator<char>{out});
 
 }
-
-*/
