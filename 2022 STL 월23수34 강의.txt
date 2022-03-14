@@ -347,3 +347,353 @@ int main()
 
 	save("stl.cpp");
 }
+파일 이름 : stl.cpp, 파일 크기 : 686
+저장 시간 : 2022-03-14 10:43:16 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 3. 14 월23						월23 수34				(2주 1일)
+// 
+// 
+// 
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include <string_view>
+#include "save.h"
+
+//[문제] 다음 main을 수정없이 실행되는 템플릿 함수를 작성하라
+
+template<typename T>
+void change(T& a, T& b)
+{
+	T temp{ a };
+	a = b;
+	b = temp;
+}
+
+int main()
+{
+	
+	{
+		int a{ 1 }, b{ 2 };
+		change(a, b);
+		std::cout << a << ", " << b << std::endl;
+	}
+	{
+		std::string a{ 1 }, b{ 2 };
+		change(a, b);
+		std::cout << a << ", " << b << std::endl;
+	}
+
+	save("stl.cpp");
+}
+파일 이름 : stl.cpp, 파일 크기 : 782
+저장 시간 : 2022-03-14 10:51:29 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 3. 14 월23						월23 수34				(2주 1일)
+// 
+// 지난주 복습
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include <string_view>
+#include "save.h"
+
+//[문제] 다음 main을 수정없이 실행되는 템플릿 함수를 작성하라
+
+template<typename T>
+void change(T& a, T& b)
+{
+	T temp{ a };
+	a = b;
+	b = temp;
+}
+
+int main()
+{
+	
+	{
+		int a{ 1 }, b{ 2 };
+		change(a, b);
+		std::cout << a << ", " << b << std::endl;
+	}
+	{
+		using namespace std::literals;
+		// 스트링 리터럴 정의를 위한 네임스페이스 사용
+		std::string a{ "1"s }, b{ "2"s };
+		change(a, b);
+		std::cout << a << ", " << b << std::endl;
+	}
+
+	save("stl.cpp");
+}
+파일 이름 : stl.cpp, 파일 크기 : 1309
+저장 시간 : 2022-03-14 11:06:04 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 3. 14 월23						월23 수34				(2주 1일)
+// 
+// 지난주 복습
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include "save.h"
+
+//[문제] 다음 main을 수정없이 실행되는 템플릿 함수를 작성하라
+
+template <typename T>
+void change(T& a, T& b)
+{
+	T temp{ a };
+	a = b;
+	b = temp;
+}
+
+// 컴파일러는 함수를 읽어들여 위의 template를 만나면 해당 자료형에 맞게 아래처럼
+// 함수를 찍어낸다
+// 컴파일러의 과정  1. 함수 찍어내기(template), 2. 기계어 변환
+//  -> 아래처럼 함수를 먼저 찍어내고 기계어 변환시 오류를 검사함
+template <>
+void change(int& a, int& b)
+{
+	std::cout << "템플릿의 특수화" << std::endl;
+	int temp{ a };
+	a = b;
+	b = temp;
+}
+
+template <>
+void change(std::string& a, std::string& b)
+{
+	std::cout << "템플릿의 특수화" << std::endl;
+	std::string temp{ a };
+	a = b;
+	b = temp;
+}
+
+// -------
+int main()
+// -------
+{
+	
+	{
+		int a{ 1 }, b{ 2 };
+		change(a, b);
+		std::cout << a << ", " << b << std::endl;
+	}
+	{
+		using namespace std::literals;
+		// 스트링 리터럴 정의를 위한 네임스페이스 사용
+		std::string a{ "1"s }, b{ "2"s };
+		change(a, b);
+		std::cout << a << ", " << b << std::endl;
+	}
+
+	save("stl.cpp");
+}
+파일 이름 : stl.cpp, 파일 크기 : 795
+저장 시간 : 2022-03-14 11:19:18 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 3. 14 월23						월23 수34				(2주 1일)
+// 
+// C++ 설명
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include "save.h"
+
+/*
+C++ Programming language
+C++ Programming Paradigm 5가지
+1. Procedural PL
+	-> 절차적 언어
+2. Object Oriented PL
+	-> 객체 지향 언어
+3. Generic PL(STL)
+	-> 자료형의 관계없이 template을 이용하여 해결 -> 문제해결 방법( 컨테이너, 알고리즘 )
+4. Template Meta PL
+	-> template를 통해 컴파일시간에 함수를 찍어냄
+5. Functional PL
+	-> C++, [], filter ...
+
+*/
+
+template <typename T>
+void change(T& a, T& b)
+{
+	T temp{ a };
+	a = b;
+	b = temp;
+}
+
+// -------
+int main()
+// -------
+{
+
+	save("stl.cpp");
+}
+파일 이름 : stl.cpp, 파일 크기 : 539
+저장 시간 : 2022-03-14 11:39:44 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 3. 14 월23						월23 수34				(2주 1일)
+// 
+// 많은 수의 자료를 다루는 연습
+// 1. int -> class
+//    int 1000개를 파일에 저장하기
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include "save.h"
+
+
+// [문제] 임의의(random) int값 1000개를 화면에 출력하라
+
+
+// -------
+int main()
+// -------
+{
+	for (int i = 0; i < 1000; ++i)
+		std::cout << rand() << ' ';
+
+	save("stl.cpp");
+}
+파일 이름 : stl.cpp, 파일 크기 : 573
+저장 시간 : 2022-03-14 11:41:45 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 3. 14 월23						월23 수34				(2주 1일)
+// 
+// 많은 수의 자료를 다루는 연습
+// 1. int -> class
+//    int 1000개를 파일에 저장하기
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include <format>
+#include "save.h"
+
+
+// [문제] 임의의(random) int값 1000개를 화면에 출력하라
+
+
+// -------
+int main()
+// -------
+{
+	// 10글자씩 출력하도록 formatting 함
+	for (int i = 0; i < 1000; ++i)
+		std::cout << std::format("{:10}", rand());
+
+	save("stl.cpp");
+}
+파일 이름 : stl.cpp, 파일 크기 : 916
+저장 시간 : 2022-03-14 12:00:17 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 3. 14 월23						월23 수34				(2주 1일)
+// 
+// 많은 수의 자료를 다루는 연습
+// 1. int -> class
+//    int 1000개를 파일에 저장하기
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include <format>
+#include "save.h"
+
+
+// [문제] int의 최대값을 화면에 출력하라
+// [문제] 엔진과 분포를 이용하여 임의의(random) int값 1000개를 화면에 출력하라
+
+
+// -------
+int main()
+// -------
+{
+	int num = 0B01111111'11111111'11111111'11111111;
+	int n = 0X7FFFFFFF;
+	std::cout << num << std::endl;
+	std::cout << n << std::endl;
+	std::cout << INT_MAX << std::endl;
+	
+	// int는 기계마다 byte수가 다름, 표준은 2바이트 이상
+	// 따라서 다음처럼 numeric 을 통해 자료형의 최댓값을 출력해야함
+	std::cout << std::numeric_limits<int>::max << std::endl;
+
+	save("stl.cpp");
+}
+파일 이름 : stl.cpp, 파일 크기 : 945
+저장 시간 : 2022-03-14 12:17:15 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 3. 14 월23						월23 수34				(2주 1일)
+// 
+// 많은 수의 자료를 다루는 연습
+// 1. int -> class
+//    int 1000개를 파일에 저장하기
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include <format>
+#include <random>
+#include "save.h"
+
+// random_device는 개개인의 장치의 특성을 활용하여 시드를 생성함
+std::random_device rd;
+std::default_random_engine dre{ rd() };
+std::uniform_int_distribution<int> uid;
+
+// [문제] 엔진과 분포를 이용하여 임의의(random) int값 1000개를 화면에 출력하라
+// normal 분포는 시험이나 과제에 나올 예정
+
+// -------
+int main()
+// -------
+{
+	// 엔진의 크기가 크기 때문에 스택에 쓰지 말것
+	std::cout << "엔진의 크기 - " << sizeof(dre) << std::endl;
+
+	for (int i = 0; i < 1'000; ++i)
+		std::cout << std::format("{:15}", uid(dre));
+	
+	save("stl.cpp");
+}
+ 파일 이름 : stl.cpp, 파일 크기 : 712
+저장 시간 : 2022-03-14 12:18:48 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 3. 14 월23						월23 수34				(2주 1일)
+// 
+// 많은 수의 자료를 다루는 연습
+// 1. int -> class
+//    int 1000개를 파일에 저장하기
+// 
+// 숙제 - 파일 입출력 알아보기
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include <random>
+#include "save.h"
+
+std::default_random_engine dre;
+std::uniform_int_distribution<int> uid;
+
+// [문제] 엔진과 분포를 이용하여 생성한 int값 1000개를
+// 파일 "int 1000개.txt"에 저장하라.
+
+// -------
+int main()
+// -------
+{
+
+	for (int i = 0; i < 1'000; ++i)
+		std::cout << uid(dre) << "\t";
+	
+	save("stl.cpp");
+}
+ 

@@ -1,60 +1,31 @@
 //-----------------------------------------------------------------------------
-// 2022. 3. 8 월23						월23 수34				(1주 2일)
+// 2022. 3. 14 월23						월23 수34				(2주 1일)
 // 
-// C++ 복습 - &, class Dog
+// 많은 수의 자료를 다루는 연습
+// 1. int -> class
+//    int 1000개를 파일에 저장하기
 // 
+// 숙제 - 파일 입출력 알아보기
 //-----------------------------------------------------------------------------
 
 #include <iostream>
-#include <string_view>
+#include <random>
 #include "save.h"
 
-//[문제] 다음 main을 수정없이 실행되는 템플릿 함수를 작성하라
+std::default_random_engine dre;
+std::uniform_int_distribution<int> uid;
 
-template<typename T>
-void change(T& a, T& b)
-{
-	T temp{ a };
-	a = b;
-	b = temp;
-}
+// [문제] 엔진과 분포를 이용하여 생성한 int값 1000개를
+// 파일 "int 1000개.txt"에 저장하라.
 
-class Dog {
-public:
-	Dog(std::string str, int num) : name{ str }, age{ num } {}
-	
-
-	friend std::ostream& operator<<(std::ostream& , const Dog&);
-private:
-	std::string name;
-	int age;
-};
-
-std::ostream& operator<<(std::ostream& os, const Dog& dog)
-{
-	os << "이름 : " << dog.name << ",  나이 : " << dog.age << std::endl;
-	return os;
-}
-
+// -------
 int main()
+// -------
 {
+
+	for (int i = 0; i < 1'000; ++i)
+		std::cout << uid(dre) << "\t";
 	
-	int a{ 1 }, b{ 2 };
-	change(a, b);
-
-	std::cout << a << ", " << b << std::endl;
-
-	std::string c = "STL";
-	std::string d = "C++ Programming";
-	change(c, d);
-
-	std::cout << c << ", " << d << std::endl;
-
-	Dog e{ "코코", 3 };
-	Dog f{ "댕댕이", 2 };
-	change(e, f);
-	
-	std::cout << e << f << std::endl;
-
 	save("stl.cpp");
 }
+ 
