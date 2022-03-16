@@ -696,3 +696,421 @@ int main()
 	
 	save("stl.cpp");
 }
+파일 이름 : stl.cpp, 파일 크기 : 684
+저장 시간 : 2022-03-16 11:42:19 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 3. 16 수34						월23 수34				(2주 2일)
+// 
+// int 1000개를 파일에 저장하기
+// "int 1000개.txt" 에 저장된 int 1000개를 읽어 화면에 출력하라
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include "save.h"
+
+
+// [문제] 파일 "int 1000개.txt" 에 저장된 int 1000개를 화면에 출력하라
+
+// -------
+int main()
+// -------
+{
+	std::ifstream in{ "int 1000개.txt" };
+
+	std::vector<char> v{ std::istreambuf_iterator<char>{in}, {} };
+
+	for (auto d : v)
+		std::cout << d;
+
+	save("stl.cpp");
+}
+ 파일 이름 : stl.cpp, 파일 크기 : 1892
+저장 시간 : 2022-03-16 11:46:53 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 3. 14 월23						월23 수34				(2주 1일)
+// 
+// 많은 수의 자료를 다루는 연습
+// 1. int -> class
+//    int 1000개를 파일에 저장하기
+// 
+// 숙제 - 파일 입출력 알아보기
+//-----------------------------------------------------------------------------
+
+#include <fstream>
+#include <format>
+
+#include <iostream>
+#include <random>
+#include "save.h"
+
+std::random_device rd;
+std::default_random_engine dre(rd());
+std::uniform_int_distribution<int> uid;
+
+// [문제] 엔진과 분포를 이용하여 생성한 int값 1000개를
+// 파일 "int 1000개.txt"에 저장하라.
+
+// -------
+int main()
+// -------
+{
+	// c++이 기본적으로 ANSI 방식으로 텍스트 파일을 읽음
+	// 따라서 한글이 있다면 UFT-8 방식으로 읽는다고 명시해야함
+	//std::locale::global(std::locale("ko_KR.UTF-8"));
+
+	std::ofstream out("test.txt");
+
+	if (out.is_open()) {
+		for (int i = 0; i < 100; ++i) {
+			for (int j = 0; j < 10; ++j)
+				out << std::format("{:14}", uid(dre));
+			out << std::endl;
+		}
+	}
+
+	std::ifstream in("test.txt");
+	
+
+	// 찾아본 방식
+
+	// 1. 한번에 읽기
+
+	/*std::string s;
+
+	if (in.is_open()) {
+		in.seekg(0, std::ios::end);
+		int size = in.tellg();
+
+		s.resize(size);
+		in.seekg(0, std::ios::beg);
+
+		in.read(&s[0], size);
+		std::cout << s << std::endl;
+
+	}
+	else {
+		std::cout << "파일을 찾을 수 없습니다! " << std::endl;
+	}*/
+
+
+	// 2. 한줄씩 읽어오기
+
+	/*if (!in.is_open()) {
+		std::cout << "파일을 찾을 수 없습니다! " << std::endl;
+		return 0;
+	}
+	std::string s2;
+	while (in) {
+		getline(in, s2);
+		std::cout << s2 << std::endl;
+	}*/
+
+
+
+	
+	// 벡터를 만들면서 in 파일의 내용을 다 읽어온다.  (STL 컨테이너)
+	std::vector<char> v{ std::istreambuf_iterator<char>{in}, {} };
+
+	// 벡터로 읽어온 파일을 출력한다
+	for (auto d : v)
+		std::cout << d;
+
+	save("stl.cpp");
+}
+ 파일 이름 : stl.cpp, 파일 크기 : 772
+저장 시간 : 2022-03-16 12:00:07 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 3. 16 수34						월23 수34				(2주 2일)
+// 
+// int 1000개를 파일에 저장하기
+// "int 1000개.txt" 에 저장된 int 1000개를 읽어 화면에 출력하라
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include <fstream>
+#include "save.h"
+
+// [문제] 파일 "int 1000개.txt" 에 저장된 int 1000개 중
+// 가장 큰 값을 화면에 출력하라
+
+// -------
+int main()
+// -------
+{
+	
+	std::ifstream in{ "int 1000개.txt" };
+
+	int num;
+	int max{ std::numeric_limits<int>::min() };
+
+	for (int i = 0; i < 1'000; ++i) {
+		in >> num;
+		if (max < num)
+			max = num;
+	}
+	std::cout << "최댓값 : " << max << std::endl;
+
+	save("stl.cpp");
+}
+파일 이름 : stl.cpp, 파일 크기 : 796
+저장 시간 : 2022-03-16 12:04:46 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 3. 16 수34						월23 수34				(2주 2일)
+// 
+// int 1000개를 파일에 저장하기
+// "int 1000개.txt" 에 저장된 int 1000개를 읽어 화면에 출력하라
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include <fstream>
+#include <algorithm>
+#include "save.h"
+
+// [문제] 파일 "int 1000개.txt" 에 저장된 int 1000개 중
+// 가장 큰 값을 화면에 출력하라
+
+// -------
+int main()
+// -------
+{
+	
+	std::ifstream in{ "int 1000개.txt" };
+
+	// 아래 함수는 iterator를 리턴함
+	// max_element(std::istream_iterator<int>{in}, {})
+
+	std::cout << "최댓값 : " << *max_element(std::istream_iterator<int>{in}, {}) << std::endl;
+
+	save("stl.cpp");
+}
+파일 이름 : stl.cpp, 파일 크기 : 694
+저장 시간 : 2022-03-16 12:05:39 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 3. 16 수34						월23 수34				(2주 2일)
+// 
+// int 1000개를 파일에 저장하기
+// "int 1000개.txt" 에 저장된 int 1000개를 읽어 화면에 출력하라
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include <fstream>
+#include <algorithm>
+#include "save.h"
+
+// [문제] 파일 "int 1000개.txt" 에 저장된 int 1000개 중
+// 가장 큰 값을 화면에 출력하라
+
+// -------
+int main()
+// -------
+{
+	
+	std::ifstream in{ "int 1000개.txt" };
+
+	std::cout << "작은 수 - " << *min_element(std::istream_iterator<int>{in}, {}) << std::endl;
+
+	save("stl.cpp");
+}
+파일 이름 : stl.cpp, 파일 크기 : 790
+저장 시간 : 2022-03-16 12:39:58 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 3. 16 수34						월23 수34				(2주 2일)
+// 
+// int 1000개를 파일에 저장하기
+// "int 1000개.txt" 에 저장된 int 1000개를 읽어 화면에 출력하라
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include <fstream>
+#include <random>
+#include "save.h"
+
+// [문제] int 1000개를 저장하려면 메모리 몇 바이트가 필요합니까?	->		int 저장방식에 따라 달라서 모름
+// 이 답에 맞게 int를 파일에 저장하고 메모리 크기를 확인하세요.
+
+// -------
+int main()
+// -------
+{
+	// int 메모리를 그대로 기록한다.
+
+	std::ofstream out{ "int 1000개.txt" };
+
+	for (int i{1}; i <= 1'000; ++i)
+		out.write( (const char*)&i, sizeof(int));
+
+
+	save("stl.cpp");
+}
+파일 이름 : stl.cpp, 파일 크기 : 1118
+저장 시간 : 2022-03-16 12:44:22 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 3. 16 수34						월23 수34				(2주 2일)
+// 
+// int 1000개를 파일에 저장하기
+// "int 1000개.txt" 에 저장된 int 1000개를 읽어 화면에 출력하라
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include <fstream>
+#include <random>
+#include "save.h"
+
+// [문제] int 1000개를 저장하려면 메모리 몇 바이트가 필요합니까?	->		int 저장방식에 따라 달라서 모름
+// 이 답에 맞게 int를 파일에 저장하고 메모리 크기를 확인하세요.
+
+std::default_random_engine dre;
+std::uniform_int_distribution uid;
+
+// -------
+int main()
+// -------
+{
+	// int 메모리를 그대로 기록한다.
+	// int 4바이트 씩을 기록했지만 파일은 4024 바이트
+	// 그렇다면 무엇은 더 덧붙여 기록했는지 확인할 것
+	//  -> os 에 따라 엔터키에 해당하는 바이트를 달리 기록한다.
+	//  -> windows 는 엔터키를 2바이트로 할당하여 기록
+
+	std::ofstream out{ "int 1000개.txt" };
+
+	int num;
+
+	for (int i{ 1 }; i <= 1'000; ++i){
+		num = uid(dre);
+		out.write((const char*)&num, sizeof(int));
+	}
+
+	save("stl.cpp");
+}
+파일 이름 : stl.cpp, 파일 크기 : 1214
+저장 시간 : 2022-03-16 12:45:30 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 3. 16 수34						월23 수34				(2주 2일)
+// 
+// int 1000개를 파일에 저장하기
+// "int 1000개.txt" 에 저장된 int 1000개를 읽어 화면에 출력하라
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include <fstream>
+#include <random>
+#include "save.h"
+
+// [문제] int 1000개를 저장하려면 메모리 몇 바이트가 필요합니까?	->		int 저장방식에 따라 달라서 모름
+// 이 답에 맞게 int를 파일에 저장하고 메모리 크기를 확인하세요.
+
+std::default_random_engine dre;
+std::uniform_int_distribution uid;
+
+// -------
+int main()
+// -------
+{
+	// int 메모리를 그대로 기록한다.
+	// int 4바이트 씩을 기록했지만 파일은 4024 바이트
+	// 그렇다면 무엇은 더 덧붙여 기록했는지 확인할 것
+	//  -> os 에 따라 엔터키에 해당하는 바이트를 달리 기록한다.
+	//  -> windows 는 엔터키를 2바이트로 할당하여 기록
+
+	// binary 모드를 이용하면 4바이트 * 1000, 4000바이트만큼만 파일에 기록한다
+
+	std::ofstream out{ "int 1000개.txt", std::ios::binary};
+
+	int num;
+
+	for (int i{ 1 }; i <= 1'000; ++i){
+		num = uid(dre);
+		out.write((const char*)&num, sizeof(int));
+	}
+
+	save("stl.cpp");
+}
+파일 이름 : stl.cpp, 파일 크기 : 916
+저장 시간 : 2022-03-16 12:59:09 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 3. 16 수34						월23 수34				(2주 2일)
+// 
+// int 1000개를 파일에 저장하기
+// "int 1000개.txt" 에 저장된 int 1000개를 읽어 화면에 출력하라
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include <fstream>
+#include "save.h"
+
+// [문제] "int 1000개.txt" 파일에 int 1000개가 binary mod로 저장되어 있다.
+// 저장은 stream의 write 함수를 사용하였다.
+// 읽어서 가장 큰 값을 화면에 출력하라
+
+// -------
+int main()
+// -------
+{
+	std::ifstream in("int 1000개.txt", std::ios::binary);
+
+	// binary mod로 4바이트씩 읽어서 가져오기
+
+	int num;
+	int max{};
+	
+	for (int i{}; i < 1'000; ++i) {
+		in.read((char*)&num, sizeof(int));
+		if (max < num)
+			max = num;
+	}
+	std::cout << "가장 큰 수 - " << max << std::endl;
+	
+	save("stl.cpp");
+}
+파일 이름 : stl.cpp, 파일 크기 : 927
+저장 시간 : 2022-03-16 13:06:16 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 3. 16 수34						월23 수34				(2주 2일)
+// 
+// int 1000개를 파일에 저장하기
+// "int 1000개.txt" 에 저장된 int 1000개를 읽어 화면에 출력하라
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include <fstream>
+#include <array>
+#include "save.h"
+
+// [문제] "int 1000개.txt" 파일에 int 1000개가 binary mod로 저장되어 있다.
+// 저장은 stream의 write 함수를 사용하였다.
+// 읽어서 가장 큰 값을 화면에 출력하라
+
+// -------
+int main()
+// -------
+{
+	std::ifstream in("int 1000개.txt", std::ios::binary);
+
+	// binary mod로 전체를 읽어오기
+
+	std::array<int, 1'000> num;
+	int max{};
+	
+	in.read((char*)num.data(), sizeof(int) * 1000);
+
+	for (int data : num)
+		if (max < data)
+			max = data;
+
+	std::cout << "가장 큰 수 - " << max << std::endl;
+	
+	save("stl.cpp");
+}
