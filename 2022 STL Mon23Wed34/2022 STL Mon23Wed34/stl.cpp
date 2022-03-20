@@ -14,16 +14,32 @@
 
 #include <iostream>
 #include <fstream>
-#include <vector>
-#include <random>
+#include <memory>
 #include "save.h"
 
 // [문제] 사용자가 원하는 갯수만큼 int를 저장할 메모리를 만들어라
 // 그 메모리를 1부터 증가하는 int 값으로 채워라
 
-std::random_device rd;
-std::default_random_engine dre;
-std::uniform_int_distribution uid;
+
+class number
+{
+public:
+	number() { num = 0; }
+	number(int a) : num{ a } {}
+
+	void setNumber(int a) { num = a; }
+
+	friend std::ostream& operator<<(std::ostream& os, const number& num);
+
+private:
+	int num;
+};
+
+std::ostream& operator<<(std::ostream& os, const number& number)
+{
+	os << number.num;
+	return os;
+}
 
 // -------
 int main()
@@ -33,7 +49,7 @@ int main()
 	std::cout << "몇 개의 int 를 원하십니까? ";
 	std::cin >> num;
 
-	int* arr = new int[num];
+	auto arr = std::make_unique<int[]>(num);
 
 	for (int i{}; i < num; ++i)
 		arr[i] = i + 1;
@@ -42,9 +58,21 @@ int main()
 	for (int i{}; i < num; ++i)
 		sum += arr[i];
 
-	std::cout << sum;
+	std::cout << sum << std::endl;
 
-	delete[] arr;
+
+
+
+	auto arr2 = std::make_unique<number[]>(num);
+
+	for (int i{}; i < num; ++i)
+		arr2[i].setNumber(i + 1);
+
+	for (int i{}; i < num; ++i)
+		std::cout << arr2[i] << ' ';
+
+
+
 
 	//save("stl.cpp");
 }
