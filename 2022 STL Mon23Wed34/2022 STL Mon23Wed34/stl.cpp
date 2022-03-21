@@ -1,78 +1,43 @@
 //-----------------------------------------------------------------------------
-// 2022. 3. 16 수34						월23 수34				(2주 2일)
+// 2022. 3. 21 월23						월23 수34				(3주 1일)
 // 
-// 파일 입출력은 더 이상 알아볼 것이 없다
-//	 text / binary  mod 와   read / write 와  >> , <<  의 조합말곤 없기 떄문이다.
+// 지난 시간 - int[1000] 대신 array<int, 1000>을 사용하자
+// 오늘	     - int* (raw pointer) 대신 unique_ptr<int> 를 사용하자
 // 
-// - 파일 입출력 복습 할 것
+// 컴파일러가 값을 결정하는 2가지 시점
+// 1. 컴파일 타임 (Compile Time)
+// 2. 실행 시간 (Run Time)
 // 
-// 다음 시간 : 메모리
-//			   class 입출력
-// 
-//  숙제 - 동적 메모리 할당
+// 찾아보기 - RAII / Stack unwinding
 //-----------------------------------------------------------------------------
 
 #include <iostream>
-#include <fstream>
 #include <memory>
 #include "save.h"
 
-// [문제] 사용자가 원하는 갯수만큼 int를 저장할 메모리를 만들어라
-// 그 메모리를 1부터 증가하는 int 값으로 채워라
-
-
-class number
-{
-public:
-	number() { num = 0; }
-	number(int a) : num{ a } {}
-
-	void setNumber(int a) { num = a; }
-
-	friend std::ostream& operator<<(std::ostream& os, const number& num);
-
-private:
-	int num;
-};
-
-std::ostream& operator<<(std::ostream& os, const number& number)
-{
-	os << number.num;
-	return os;
-}
+// [문제] "stl.cpp" 를 읽어
+// 소문자를 전부 대문자로 변경하여
+// "소스 대문자.cpp" 에 저장하라
 
 // -------
 int main()
 // -------
 {
-	int num;
-	std::cout << "몇 개의 int 를 원하십니까? ";
-	std::cin >> num;
+	save("stl.cpp");
+	
+	// 유니크 포인터는 자동으로 해제하기에 아래 프로그램은 죽지 않는다
 
-	auto arr = std::make_unique<int[]>(num);
+	while (true) {
+		
+		
+		std::unique_ptr<int[]> p{ new int[1'000'000'000] };
 
-	for (int i{}; i < num; ++i)
-		arr[i] = i + 1;
+		long long sum{};
+		for (int i = 0; i < 1'000'000'000; ++i)
+			sum += p[i];
 
-	int sum = 0;
-	for (int i{}; i < num; ++i)
-		sum += arr[i];
+		std::cout << "합계 - " << sum << std::endl;
 
-	std::cout << sum << std::endl;
-
-
-
-
-	auto arr2 = std::make_unique<number[]>(num);
-
-	for (int i{}; i < num; ++i)
-		arr2[i].setNumber(i + 1);
-
-	for (int i{}; i < num; ++i)
-		std::cout << arr2[i] << ' ';
-
-
-
-
-	//save("stl.cpp");
+	}
+	
 }
