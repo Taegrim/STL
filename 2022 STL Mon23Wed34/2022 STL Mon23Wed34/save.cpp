@@ -44,4 +44,5 @@ void save(std::string_view fname)
 	// 벡터로 읽어온 파일을 출력 파일로 내보낸다. (STL 알고리즘)
 	copy(v.begin(), v.end(), std::ostream_iterator<char>{out});
 
+
 }
