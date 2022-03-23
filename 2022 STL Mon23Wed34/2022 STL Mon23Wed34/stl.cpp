@@ -1,93 +1,71 @@
 //-----------------------------------------------------------------------------
-// 2022. 3. 21 월23						월23 수34				(3주 1일)
+// 2022. 3. 23 수34						월23 수34				(3주 2일)
 // 
-// 지난 시간 - int[1000] 대신 array<int, 1000>을 사용하자
-// 오늘	     - int* (raw pointer) 대신 unique_ptr<int> 를 사용하자
+// 오늘 - 호출가능 타입(callable type) : () 로 호출할 수 있는가  ->  정렬(sort)에 사용
+// 자원을 관리하는 클래스 - STRING (컨테이너, 반복자, 알고리즘)
 // 
-// 컴파일러가 값을 결정하는 2가지 시점
-// 1. 컴파일 타임 (Compile Time)
-// 2. 실행 시간 (Run Time)
-// 
-// 찾아보기 - RAII / Stack unwinding
+// 숙제 - 호출가능 타입 공부
 //-----------------------------------------------------------------------------
 
 #include <iostream>
-#include <fstream>
-#include <string>
+#include <array>
+#include <random>
+#include <format>
 #include <algorithm>
-#include <vector>
 #include "save.h"
 
-// [문제] "stl.cpp" 를 읽어
-// 소문자를 전부 대문자로 변경하여
-// "소스 대문자.cpp" 에 저장하라
+// [문제] 값이 [1, 100] 랜덤 int 100개를 생성하고
+// 오름차순, 내림차순으로 정렬한 후 
+// 정렬된 int 100개를 화면에 출력하시오.
 
+std::default_random_engine dre;
+std::uniform_int_distribution uid{ 1,100 };
+
+template<typename T>
+T game(T a, T b)
+{
+	return a > b;
+}
+
+class Dog {
+
+public:
+	void operator()(void) {
+		std::cout << "나를 부를 수 있다" << std::endl;
+	}
+};
 
 // -------
 int main()
 // -------
 {
-	std::ifstream in("stl.cpp");
+	//int (*f)(void);
+	//f();  -> () 함수호출 연산자
 
-	std::ofstream out("소스 대문자.cpp");
+	Dog dog;
+	dog();
 
+	std::array<int, 100> arr;
 
-	// 한번에 읽기
+	for (auto& data : arr)
+		data = uid(dre);
 
-	//std::string s;
+	std::cout << "정렬 전" << std::endl;
+	for (auto data : arr)
+		std::cout << std::format("{:4}", data);
 
-	//if (in) {
-	//	in.seekg(0, std::ios::end);
-	//	
-	//	int size = in.tellg();
-	//	s.resize(size);
+	std::cout << std::endl << std::endl;
 
-	//	in.seekg(0, std::ios::beg);
+	// default 오름차순
+	// std::sort(arr.begin(), arr.end());
 
-	//	in.read(&s[0], size);
-	//	
-	//	/*for (int i = 0; i < s.size(); ++i) {
-	//		s[i] = toupper(s[i]);
-	//	}*/
+	// 내림차순
+	// std::sort(arr.begin(), arr.end(), std::greater<>());  	
+	std::sort(arr.begin(), arr.end(), game<int>);
 
-	//	// 알고리즘으로 처리		(바꿀 것의 시작, 끝,  바꾼것이 담길 목적지의 시작점, 바뀔 방법)
-	//	std::transform(s.begin(), s.end(), s.begin(), [](unsigned char c) {return toupper(c); });
-
-	//	out << s << std::endl;
-	//}
-	//else {
-	//	std::cout << "파일을 찾을 수 없습니다 " << std::endl;
-	//}
-
-
-	// 한줄씩 읽기
-
-	/*std::string s2;
-
-	if (!in) {
-		std::cout << "파일을 찾을 수 없습니다 " << std::endl;
-	}
-	
-	while (in) {
-		std::getline(in, s2);
-		for (int i = 0; i < s2.size(); ++i)
-			s2[i] = toupper(s2[i]);
-		out << s2 << std::endl;
-	}*/
-
-
-	
-	// STL 컨테이너 활용
-	std::vector<char> v{ std::istreambuf_iterator<char>{in}, {} };
-
-	for (int i = 0; i < v.size(); ++i) {
-		if (v[i] >= 'a' && v[i] <= 'z')
-			v[i] -= 32;
-	}
-
-	copy(v.begin(), v.end(), std::ostream_iterator<char>{out});
-
-	
+	std::cout << "정렬 후" << std::endl;
+	for (auto data : arr)
+		std::cout << std::format("{:4}", data);
 
 	//save("stl.cpp");
 }

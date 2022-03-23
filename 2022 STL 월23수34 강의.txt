@@ -1687,3 +1687,331 @@ int main()
 
 	save("stl.cpp");
 }
+파일 이름 : stl.cpp, 파일 크기 : 1943
+저장 시간 : 2022-03-23 11:53:55 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 3. 23 수34						월23 수34				(3주 2일)
+// 
+// 오늘 - 호출가능 타입(callable type) - 정렬(sort)
+// 자원을 관리하는 클래스 - STRING (컨테이너, 반복자, 알고리즘)
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <algorithm>
+#include <vector>
+#include "save.h"
+
+// [문제] "stl.cpp" 를 읽어
+// 소문자를 전부 대문자로 변경하여
+// "소스 대문자.cpp" 에 저장하라
+
+
+// -------
+int main()
+// -------
+{
+	std::ifstream in("stl.cpp");
+
+	std::ofstream out("소스 대문자.cpp");
+
+	// 한번에 읽기
+
+	//std::string s;
+
+	//if (in) {
+	//	in.seekg(0, std::ios::end);
+	//	
+	//	int size = in.tellg();
+	//	s.resize(size);
+
+	//	in.seekg(0, std::ios::beg);
+
+	//	in.read(&s[0], size);
+	//	
+	//	/*for (int i = 0; i < s.size(); ++i) {
+	//		s[i] = toupper(s[i]);
+	//	}*/
+
+	//	// 알고리즘으로 처리		(바꿀 것의 시작, 끝,  바꾼것이 담길 목적지의 시작점, 바뀔 방법)
+	//	std::transform(s.begin(), s.end(), s.begin(), [](unsigned char c) {return toupper(c); });
+
+	//	out << s << std::endl;
+	//}
+	//else {
+	//	std::cout << "파일을 찾을 수 없습니다 " << std::endl;
+	//}
+
+
+	// 한줄씩 읽기
+
+	/*std::string s2;
+
+	if (!in) {
+		std::cout << "파일을 찾을 수 없습니다 " << std::endl;
+	}
+	
+	while (in) {
+		std::getline(in, s2);
+		for (int i = 0; i < s2.size(); ++i)
+			s2[i] = toupper(s2[i]);
+		out << s2 << std::endl;
+	}*/
+
+
+	
+	// STL 컨테이너 활용
+
+	/*std::vector<char> v{ std::istreambuf_iterator<char>{in}, {} };
+
+	for (int i = 0; i < v.size(); ++i) 
+		v[i] = toupper(v[i]);
+
+	copy(v.begin(), v.end(), std::ostream_iterator<char>{out});*/
+
+	
+
+	// 한글자씩 쭉 읽어들이기
+
+	char ch;
+
+	// \n 건너뛰지않게 함
+	in >> std::noskipws;
+
+	while (in >> ch) {
+		ch = toupper(ch);
+		out << ch;
+	}
+
+	save("stl.cpp");
+}
+파일 이름 : stl.cpp, 파일 크기 : 2125
+저장 시간 : 2022-03-23 12:02:26 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 3. 23 수34						월23 수34				(3주 2일)
+// 
+// 오늘 - 호출가능 타입(callable type) - 정렬(sort)
+// 자원을 관리하는 클래스 - STRING (컨테이너, 반복자, 알고리즘)
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include <fstream>
+#include <algorithm>
+#include "save.h"
+
+// [문제] "stl.cpp" 를 읽어
+// 소문자를 전부 대문자로 변경하여
+// "소스 대문자.cpp" 에 저장하라
+
+
+// -------
+int main()
+// -------
+{
+	std::ifstream in("stl.cpp");
+	std::ofstream out("소스 대문자.cpp");
+
+	// ★STL 컨테이너 활용한 변환★
+	std::transform(std::istreambuf_iterator<char>{in}, {}, std::ostreambuf_iterator<char>{out}, [](char c) { return toupper(c); });
+
+	save("stl.cpp");
+}
+파일 이름 : stl.cpp, 파일 크기 : 1201
+저장 시간 : 2022-03-23 12:24:42 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 3. 23 수34						월23 수34				(3주 2일)
+// 
+// 오늘 - 호출가능 타입(callable type) - 정렬(sort)
+// 자원을 관리하는 클래스 - STRING (컨테이너, 반복자, 알고리즘)
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include <array>
+#include <random>
+#include <format>
+#include <algorithm>
+#include "save.h"
+
+// [문제] 값이 [1, 100] 랜덤 int 100개를 생성하고
+// 오름차순, 내림차순으로 정렬한 후 
+// 정렬된 int 100개를 화면에 출력하시오.
+
+std::default_random_engine dre;
+std::uniform_int_distribution uid{ 1,100 };
+
+// -------
+int main()
+// -------
+{
+	std::array<int, 100> arr;
+
+	for (auto& data : arr)
+		data = uid(dre);
+
+	std::cout << "정렬 전" << std::endl;
+	for (auto data : arr)
+		std::cout << std::format("{:4}", data);
+
+	std::cout << std::endl << std::endl;
+
+	// default 오름차순
+	// std::sort(arr.begin(), arr.end());
+
+	// 내림차순
+	// std::sort(arr.begin(), arr.end(), std::greater<>());  	
+	std::sort(arr.begin(), arr.end(), [](int a, int b) { return a > b; });
+
+	std::cout << "정렬 후" << std::endl;
+	for (auto data : arr)
+		std::cout << std::format("{:4}", data);
+
+	save("stl.cpp");
+}
+파일 이름 : stl.cpp, 파일 크기 : 863
+저장 시간 : 2022-03-23 12:59:34 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 3. 23 수34						월23 수34				(3주 2일)
+// 
+// 오늘 - 호출가능 타입(callable type) - 정렬(sort)
+// 자원을 관리하는 클래스 - STRING (컨테이너, 반복자, 알고리즘)
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include "save.h"
+
+// [문제] 값이 [1, 100] 랜덤 int 100개를 생성하고
+// 오름차순, 내림차순으로 정렬한 후 
+// 정렬된 int 100개를 화면에 출력하시오.
+
+int f(int a, int b) { return a + b; }
+
+void g() { std::cout << "함수 호출됨" << std::endl; }
+
+// -------
+int main()
+// -------
+{
+	auto x = f;
+	int res = (*x)(1, 2);
+
+	std::cout << res << std::endl;
+
+	auto p = g;
+	p();
+	std::cout << typeid(p).name() << std::endl;
+	std::cout << std::addressof(x) << std::endl;
+
+
+	save("stl.cpp");
+}
+파일 이름 : stl.cpp, 파일 크기 : 860
+저장 시간 : 2022-03-23 13:09:20 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 3. 23 수34						월23 수34				(3주 2일)
+// 
+// 오늘 - 호출가능 타입(callable type) - 정렬(sort)
+// 자원을 관리하는 클래스 - STRING (컨테이너, 반복자, 알고리즘)
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include "save.h"
+
+void jump() { std::cout << "점프" << std::endl; }
+
+void slide() { std::cout << "슬라이드" << std::endl; }
+
+// -------
+int main()
+// -------
+{
+	void (*x)(void) = jump;
+	x();
+
+	x = slide;
+	x();
+
+	// 함수를 가리키는 포인터를 통해 어떤 함수를 호출할지(기능)를 변경할 수 있다.
+	// 게임에선 키변경에 사용할 수 있음
+
+	save("stl.cpp");
+}
+파일 이름 : stl.cpp, 파일 크기 : 1571
+저장 시간 : 2022-03-23 13:20:42 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 3. 23 수34						월23 수34				(3주 2일)
+// 
+// 오늘 - 호출가능 타입(callable type) : () 로 호출할 수 있는가  ->  정렬(sort)에 사용
+// 자원을 관리하는 클래스 - STRING (컨테이너, 반복자, 알고리즘)
+// 
+// 숙제 - 호출가능 타입 공부
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include <array>
+#include <random>
+#include <format>
+#include <algorithm>
+#include "save.h"
+
+// [문제] 값이 [1, 100] 랜덤 int 100개를 생성하고
+// 오름차순, 내림차순으로 정렬한 후 
+// 정렬된 int 100개를 화면에 출력하시오.
+
+std::default_random_engine dre;
+std::uniform_int_distribution uid{ 1,100 };
+
+template<typename T>
+T game(T a, T b)
+{
+	return a > b;
+}
+
+class Dog {
+
+public:
+	void operator()(void) {
+		std::cout << "나를 부를 수 있다" << std::endl;
+	}
+};
+
+// -------
+int main()
+// -------
+{
+	//int (*f)(void);
+	//f();  -> () 함수호출 연산자
+
+	Dog dog;
+	dog();
+
+	std::array<int, 100> arr;
+
+	for (auto& data : arr)
+		data = uid(dre);
+
+	std::cout << "정렬 전" << std::endl;
+	for (auto data : arr)
+		std::cout << std::format("{:4}", data);
+
+	std::cout << std::endl << std::endl;
+
+	// default 오름차순
+	// std::sort(arr.begin(), arr.end());
+
+	// 내림차순
+	// std::sort(arr.begin(), arr.end(), std::greater<>());  	
+	std::sort(arr.begin(), arr.end(), game<int>);
+
+	std::cout << "정렬 후" << std::endl;
+	for (auto data : arr)
+		std::cout << std::format("{:4}", data);
+
+	save("stl.cpp");
+}
