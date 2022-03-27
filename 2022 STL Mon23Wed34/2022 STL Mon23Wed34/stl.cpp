@@ -35,6 +35,16 @@ public:
 	}
 };
 
+class Accumulate{
+public:
+	int operator()(int num) {
+		total += num;
+		return total;
+	}
+private:
+	int total{};
+};
+
 // -------
 int main()
 // -------
@@ -45,27 +55,11 @@ int main()
 	Dog dog;
 	dog();
 
-	std::array<int, 100> arr;
+	Accumulate accumulator;
 
-	for (auto& data : arr)
-		data = uid(dre);
-
-	std::cout << "정렬 전" << std::endl;
-	for (auto data : arr)
-		std::cout << std::format("{:4}", data);
-
-	std::cout << std::endl << std::endl;
-
-	// default 오름차순
-	// std::sort(arr.begin(), arr.end());
-
-	// 내림차순
-	// std::sort(arr.begin(), arr.end(), std::greater<>());  	
-	std::sort(arr.begin(), arr.end(), game<int>);
-
-	std::cout << "정렬 후" << std::endl;
-	for (auto data : arr)
-		std::cout << std::format("{:4}", data);
+	std::cout << "합계 : " << accumulator(1000) << std::endl;
+	std::cout << "합계 : " << accumulator(1000) << std::endl;
+	std::cout << "합계 : " << accumulator(1000) << std::endl;
 
 	//save("stl.cpp");
 }
