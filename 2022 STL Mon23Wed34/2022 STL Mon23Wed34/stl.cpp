@@ -1,65 +1,59 @@
 //-----------------------------------------------------------------------------
-// 2022. 3. 23 수34						월23 수34				(3주 2일)
+// 2022. 3. 28 월23						월23 수34				(4주 1일)
 // 
-// 오늘 - 호출가능 타입(callable type) : () 로 호출할 수 있는가  ->  정렬(sort)에 사용
 // 자원을 관리하는 클래스 - STRING (컨테이너, 반복자, 알고리즘)
-// 
-// 숙제 - 호출가능 타입 공부
 //-----------------------------------------------------------------------------
 
 #include <iostream>
-#include <array>
-#include <random>
-#include <format>
-#include <algorithm>
 #include "save.h"
 
-// [문제] 값이 [1, 100] 랜덤 int 100개를 생성하고
-// 오름차순, 내림차순으로 정렬한 후 
-// 정렬된 int 100개를 화면에 출력하시오.
+// [STL 관찰용] STRING 클래스 작성한다
+// 자원을 관리하는 클래스이다(RAII)
+// 관찰을 위해 스페셜 함수의 동작을 화면에 출력할 수 있게 한다.
+// 표준 string 클래스의 동작과 같이 코딩한다. (string을 사용하지 않는다)
+// 객체 생성시 고유번호를 부여
 
-std::default_random_engine dre;
-std::uniform_int_distribution uid{ 1,100 };
+//bool 관찰{ flase }
 
-template<typename T>
-T game(T a, T b)
-{
-	return a > b;
-}
-
-class Dog {
-
+class STRING {
 public:
-	void operator()(void) {
-		std::cout << "나를 부를 수 있다" << std::endl;
+	STRING(const char* s) : id{ ++gid }, num{ strlen(s) }, p{ new char[num] } {
+		//if (관찰)
+		//	print("생성자 - const char*");
+		memcpy(p, s, num);
 	}
-};
+	
+	~STRING() { delete[] p; }
 
-class Accumulate{
-public:
-	int operator()(int num) {
-		total += num;
-		return total;
-	}
+	friend std::ostream& operator<<(std::ostream&, const STRING&);
+
 private:
-	int total{};
+	char* p;
+	size_t num;
+	int id;
+	static int gid;
 };
+
+int STRING::gid{};
+
+std::ostream& operator<<(std::ostream& os, const STRING& s)
+{
+	for (int i{}; i < s.num; ++i)
+		os << s.p[i];
+	return os;
+}
 
 // -------
 int main()
 // -------
-{
-	//int (*f)(void);
-	//f();  -> () 함수호출 연산자
+{	
+	STRING a{"2022. 3. 28" };
+	STRING b{ "STL" };
+	// STRING c = a + b;
 
-	Dog dog;
-	dog();
-
-	Accumulate accumulator;
-
-	std::cout << "합계 : " << accumulator(1000) << std::endl;
-	std::cout << "합계 : " << accumulator(1000) << std::endl;
-	std::cout << "합계 : " << accumulator(1000) << std::endl;
+	std::cout << a << std::endl;
+	std::cout << b << std::endl;
+	//std::cout << b << std::endl;
 
 	//save("stl.cpp");
-}
+} 
