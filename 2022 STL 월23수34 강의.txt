@@ -2287,4 +2287,437 @@ int main()
 
 	save("stl.cpp");
 	
+} 파일 이름 : stl.cpp, 파일 크기 : 1981
+저장 시간 : 2022-03-30 12:09:01 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 3. 31 수34						월23 수34				(4주 2일)
+// 
+// 자원을 관리하는 클래스 - STRING (컨테이너, 반복자, 알고리즘)
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include "save.h"
+
+// [STL 관찰용] STRING 클래스 작성한다
+// 자원을 관리하는 클래스이다(RAII)
+// 관찰을 위해 스페셜 함수의 동작을 화면에 출력할 수 있게 한다.
+// 표준 string 클래스의 동작과 같이 코딩한다. (string을 사용하지 않는다)
+// 객체 생성시 고유번호를 부여
+// Release 모드에서 해야함
+
+bool 관찰{ false };
+
+class STRING {
+public:
+	STRING() : id{ ++gid }, num{}, p{} {
+		if (관찰)
+			print("디폴트 생성자");
+	}
+
+	STRING(const char* s) : id{ ++gid }, num{ strlen(s) }, p{ new char[num] } {
+		if (관찰)
+			print("생성자(const char*)");
+		memcpy(p, s, num);
+	}
+	
+	~STRING() { 
+		if (관찰)
+			print("소멸자");
+
+		if(num)
+			delete[] p; 
+	}
+
+
+	STRING operator+(const STRING& rhs) const {
+		STRING temp;
+		temp.num = num + rhs.num;
+		temp.p = new char[temp.num];
+		memcpy(temp.p, p, num);
+		memcpy(temp.p + num, rhs.p, rhs.num);
+		return temp;
+
+	}
+
+	void print(const char* s) const {
+		std::cout << s << " [" << id << "] 객체주소 : " << this << " 자원 -";
+		if (num != 0)
+			std::cout << " 갯수 : " << num << " 자원 주소: " << (void*)p << std::endl;
+		else
+			std::cout << "  없음" << std::endl;
+	}
+
+
+	friend std::ostream& operator<<(std::ostream&, const STRING&);
+
+private:
+	char* p;				// 확보한 자원 주소
+	size_t num;				// 관리하는 바이트 수
+	int id;					// 생성 시 id
+	static int gid;			// 클래스 스태틱 - id 관리
+};
+
+int STRING::gid{};
+
+std::ostream& operator<<(std::ostream& os, const STRING& s)
+{
+	for (int i{}; i < s.num; ++i)
+		os << s.p[i];
+	return os;
+}
+
+// -------
+int main()
+// -------
+{	
+	save("stl.cpp");
+
+	// 관찰 = true;
+	STRING a{"2022. 3. 28" };
+	STRING b{ "STL" };
+	
+	std::cout << a + b << std::endl;
+	
+} 파일 이름 : stl.cpp, 파일 크기 : 2446
+저장 시간 : 2022-03-30 12:21:59 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 3. 31 수34						월23 수34				(4주 2일)
+// 
+// 자원을 관리하는 클래스 - STRING (컨테이너, 반복자, 알고리즘)
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include "save.h"
+
+// [STL 관찰용] STRING 클래스 작성한다
+// 자원을 관리하는 클래스이다(RAII)
+// 관찰을 위해 스페셜 함수의 동작을 화면에 출력할 수 있게 한다.
+// 표준 string 클래스의 동작과 같이 코딩한다. (string을 사용하지 않는다)
+// 객체 생성시 고유번호를 부여
+
+bool 관찰{ false };
+
+class STRING {
+public:
+	STRING() : id{ ++gid }, num{}, p{} {
+		if (관찰)
+			print("디폴트 생성자");
+	}
+
+	STRING(const char* s) : id{ ++gid }, num{ strlen(s) }, p{ new char[num] } {
+		memcpy(p, s, num);
+		if (관찰)
+			print("생성자(const char*)");
+	}
+	
+	~STRING() { 
+		if (관찰)
+			print("소멸자");
+
+		if(num)
+			delete[] p; 
+	}
+
+	STRING(const STRING& other) : id{ ++gid }, num{ other.num }, p{ new char[num] } {
+		memcpy(p, other.p, num);
+		if (관찰)
+			print("복사 생성자");
+	}
+
+	STRING& operator=(const STRING& other) {
+		if (this == &other)
+			return *this;
+		num = other.num;
+		delete[] p;
+		p = new char[num];
+		memcpy(p, other.p, num);
+		return *this;
+	}
+
+	STRING operator+(const STRING& rhs) const {
+		STRING temp;
+		temp.num = num + rhs.num;
+		temp.p = new char[temp.num];
+		memcpy(temp.p, p, num);
+		memcpy(temp.p + num, rhs.p, rhs.num);
+
+		if (관찰)
+			print("복사할당");
+
+		return temp;
+
+	}
+
+	void print(const char* s) const {
+		std::cout << s << " [" << id << "] 객체주소 : " << this << " 자원 -";
+		if (num != 0)
+			std::cout << " 갯수 : " << num << " 자원 주소: " << (void*)p << std::endl;
+		else
+			std::cout << "  없음" << std::endl;
+	}
+
+
+	friend std::ostream& operator<<(std::ostream&, const STRING&);
+
+private:
+	char* p;				// 확보한 자원 주소
+	size_t num;				// 관리하는 바이트 수
+	int id;					// 생성 시 id
+	static int gid;			// 클래스 스태틱 - id 관리
+};
+
+int STRING::gid{};
+
+std::ostream& operator<<(std::ostream& os, const STRING& s)
+{
+	for (int i{}; i < s.num; ++i)
+		os << s.p[i];
+	return os;
+}
+
+// -------
+int main()
+// -------
+{	
+	관찰 = true;
+
+	STRING a{"2022. 3. 28 " };
+	STRING b{ "STL" };
+	STRING c = a + b;		
+
+	std::cout << a << std::endl;
+	std::cout << b << std::endl;
+	std::cout << c << std::endl;
+
+
+	save("stl.cpp");
+} 파일 이름 : stl.cpp, 파일 크기 : 616
+저장 시간 : 2022-03-30 12:46:32 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 3. 31 수34						월23 수34				(4주 2일)
+// 
+// 자원을 관리하는 클래스 - STRING (컨테이너, 반복자, 알고리즘)
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+// -------
+int main()
+// -------
+{	
+	관찰 = true;
+
+	STRING a{"2022. 3. 28 " };
+	STRING b{ "STL" };
+	STRING c = a + b;		
+
+	std::cout << a << std::endl;
+	std::cout << b << std::endl;
+	std::cout << c << std::endl;
+
+
+	save("stl.cpp");
+} 파일 이름 : stl.cpp, 파일 크기 : 660
+저장 시간 : 2022-03-30 12:47:37 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 3. 31 수34						월23 수34				(4주 2일)
+// 
+// 자원을 관리하는 클래스 - STRING (컨테이너, 반복자, 알고리즘)
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+// -------
+int main()
+// -------
+{	
+	관찰 = true;
+
+	STRING a{"2022. 3. 28 " };
+	STRING b{ "STL" };
+	STRING c = a + b;		
+
+	std::cout << a << std::endl;
+	std::cout << b << std::endl;
+	std::cout << c << std::endl;
+
+
+	save("stl.cpp");
+	save("STRING.h");
+	save("STRING.cpp");
+
+} 파일 이름 : STRING.h, 파일 크기 : 777
+저장 시간 : 2022-03-30 12:47:37 GMT+9
+
+//-----------------------------------------------------------------------------
+// STRING - STL 관찰하려고 만든 자원 관리 클래스
+// 
+// 2022. 3. 30									Programmed by Taegrim
+//-----------------------------------------------------------------------------
+
+#pragma once
+
+#include <iostream>
+
+class STRING {
+public:
+	STRING();
+
+	STRING(const char* s);
+
+	~STRING();
+
+	STRING(const STRING& other);
+
+	STRING& operator=(const STRING& other);
+
+	STRING operator+(const STRING& rhs) const;
+
+	void print(const char* s) const;
+
+
+	friend std::ostream& operator<<(std::ostream&, const STRING&);
+
+private:
+	char* p;				// 확보한 자원 주소
+	size_t num;				// 관리하는 바이트 수
+	int id;					// 생성 시 id
+	static int gid;			// 클래스 스태틱 - id 관리
+};
+파일 이름 : STRING.cpp, 파일 크기 : 1748
+저장 시간 : 2022-03-30 12:47:37 GMT+9
+
+//-----------------------------------------------------------------------------
+// STRING - STL 관찰하려고 만든 자원 관리 클래스
+// 
+// 2022. 3. 30									Programmed by Taegrim
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include "STRING.h"
+
+bool 관찰{ false };		// 관찰메세지를 보려면 -> true
+int STRING::gid{};		// STRING static
+
+
+STRING::STRING() : id{ ++gid }, num{}, p{} 
+{
+	if (관찰)
+		print("디폴트 생성자");
+}
+
+STRING::STRING(const char* s) : id{ ++gid }, num{ strlen(s) }, p{ new char[num] } 
+{
+	memcpy(p, s, num);
+	if (관찰)
+		print("생성자(const char*)");
+}
+
+STRING::~STRING() 
+{
+	if (관찰)
+		print("소멸자");
+	if (num)
+		delete[] p;
+}
+
+STRING::STRING(const STRING& other) 
+	: id{ ++gid }, num{ other.num }, p{ new char[num] } 
+{
+	memcpy(p, other.p, num);
+	if (관찰)
+		print("복사 생성자");
+}
+
+STRING& STRING::operator=(const STRING& other) 
+{
+	if (this == &other)
+		return *this;
+
+	num = other.num;
+	delete[] p;
+	p = new char[num];
+	memcpy(p, other.p, num);
+
+	if (관찰)
+		print("복사할당");
+
+	return *this;
+}
+
+STRING STRING::operator+(const STRING& rhs) const 
+{
+	STRING temp;
+	temp.num = num + rhs.num;
+	temp.p = new char[temp.num];
+	memcpy(temp.p, p, num);
+	memcpy(temp.p + num, rhs.p, rhs.num);
+
+	return temp;
+
+}
+
+void STRING::print(const char* s) const 
+{
+	std::cout << s << " [" << id << "] 객체주소 : " << this << " 자원 -";
+	if (num != 0)
+		std::cout << " 갯수 : " << num << " 자원 주소: " << (void*)p << std::endl;
+	else
+		std::cout << "  없음" << std::endl;
+}
+
+std::ostream& operator<<(std::ostream& os, const STRING& s)
+{
+	for (int i{}; i < s.num; ++i)
+		os << s.p[i];
+	return os;
+}
+파일 이름 : stl.cpp, 파일 크기 : 683
+파일 이름 : stl.cpp, 파일 크기 : 683
+저장 시간 : 2022-03-30 13:16:12 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 3. 31 수34						월23 수34				(4주 2일)
+// 
+// 자원을 관리하는 클래스 - STRING (컨테이너, 반복자, 알고리즘)
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include <array>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+// -------
+int main()
+// -------
+{	
+	관찰 = true;
+
+	save("stl.cpp");
+	//STRING strs[3];
+	//strs[0].operator=(STRING{ "123" });
+
+	STRING s{ "12345" };
+	STRING s2{ "1234567890" };
+
+	s = s2;
+
+	std::cout << s << std::endl;
+
+	
+	// cppreference.com 에서 Containers Library 부분 볼것
 } 
