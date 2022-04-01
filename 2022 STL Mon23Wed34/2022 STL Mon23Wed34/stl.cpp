@@ -15,17 +15,18 @@ extern bool 관찰;
 int main()
 // -------
 {	
-	관찰 = true;
+	//관찰 = true;
 
-	//STRING strs[3];
-	//strs[0].operator=(STRING{ "123" });
+	std::array<STRING, 3> strs{ "2022년 1학기 STL", "월23 수34", "3월 30일 수요일 수34교시 4주 2일 강의" };
 
-	STRING s{ "12345" };
-	STRING s2{ "1234567890" };
+	for (int i = 0; i < strs.size(); ++i)
+		std::cout << "strs[" << i << "] - " << strs[i] << std::endl;
 
-	s = s2;
+	std::cout << std::endl << std::endl;
+	std::cout << "strs의 STRING 3객체를 모두 더한 객체를 만들어 본다" << std::endl << std::endl;
 
-	std::cout << s << std::endl;
+	STRING all = strs[0] + strs[1] + strs[2];
+	std::cout << "모두 더하면 - " << all << std::endl;
 
 	//save("stl.cpp");
 	

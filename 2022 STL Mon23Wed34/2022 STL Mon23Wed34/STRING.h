@@ -11,14 +11,12 @@
 class STRING {
 public:
 	STRING();
-
 	STRING(const char* s);
 
 	~STRING();
 
 	STRING(const STRING& other);
-
-	STRING& operator=(const STRING& other) noexcept;
+	STRING& operator=(const STRING& other);
 
 	STRING operator+(const STRING& rhs) const;
 

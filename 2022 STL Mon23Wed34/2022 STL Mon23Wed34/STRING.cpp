@@ -17,7 +17,7 @@ STRING::STRING() : id{ ++gid }, num{}, p{}
 		print("디폴트");
 }
 
-STRING::STRING(const char* s) : id{ ++gid }, num{ strlen(s) }, p{ new char[num] } 
+STRING::STRING(const char* s) : id{ ++gid }, num{ strlen(s) }, p{ new char[strlen(s)]}
 {
 	memcpy(p, s, num);
 	if (관찰)
@@ -33,17 +33,15 @@ STRING::~STRING()
 }
 
 STRING::STRING(const STRING& other) 
-	: id{ ++gid }, num{ other.num }, p{ new char[num] } 
+	: id{ ++gid }, num{ other.num }, p{ new char[other.num] } 
 {
 	memcpy(p, other.p, num);
 	if (관찰)
 		print("복사 생성자");
 }
 
-STRING& STRING::operator=(const STRING& other) noexcept
+STRING& STRING::operator=(const STRING& other)
 {
-	std::cout << "할당 연산자" << std::endl;
-
 	if (this == &other)
 		return *this;
 
