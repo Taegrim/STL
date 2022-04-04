@@ -2756,4 +2756,284 @@ int main()
 	save("stl.cpp");
 	
 	// cppreference.com 에서 Containers Library 부분 볼것
+} 파일 이름 : stl.cpp, 파일 크기 : 888
+저장 시간 : 2022-04-04 10:52:22 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 4. 4 월23						월23 수34				(5주 1일)
+// 
+// 자원을 관리하는 클래스 - STRING (컨테이너, 반복자, 알고리즘)
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include <array>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+// -------
+int main()
+// -------
+{	
+	// 관찰 = true;
+
+	std::array<STRING, 3> a{ "컨테이너", "반복자" , "알고리즘" };
+
+	// [문제] a에 들어있는 원소(element)를 처음부터 끝까지 순회(iteration)하면서 
+	// 값을 출력해보라
+
+
+	for (std::array<STRING, 3>::iterator it = a.begin(); it != a.end(); ++it)
+		std::cout << *it << std::endl;;
+
+	//for (auto data : a)
+	//	std::cout << data << " ";
+	//std::cout << std::endl;
+	//// 이 방식은 복사생성을 하기 떄문에 효율이 떨어짐
+	//// 레퍼런스로 접근 시 원본을 받기에 위와 효율이 같아짐, 읽기동작은 const 지정
+
+	save("stl.cpp");
+} 파일 이름 : stl.cpp, 파일 크기 : 898
+저장 시간 : 2022-04-04 11:05:58 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 4. 4 월23						월23 수34				(5주 1일)
+// 
+// 자원을 관리하는 클래스 - STRING (컨테이너, 반복자, 알고리즘)
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include <array>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+// -------
+int main()
+// -------
+{	
+	관찰 = true;
+
+	std::array<STRING, 3> a{ "컨테이너", "반복자" , "알고리즘" };
+
+	// [문제] a에 들어있는 원소(element)를 처음부터 끝까지 순회(iteration)하면서 
+	// 값을 출력해보라
+
+
+	//for (auto it = a.cbegin(); it != a.cend(); ++it)
+	//	std::cout << *it << std::endl;;
+
+	//for (const auto& data : a)
+	//	std::cout << data << " ";
+	//std::cout << std::endl;
+
+	for (int i = 0; i < a.size(); ++i)
+		std::cout << a.at(i) << std::endl;
+
+
+
+	save("stl.cpp");
+} 파일 이름 : stl.cpp, 파일 크기 : 774
+저장 시간 : 2022-04-04 11:10:56 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 4. 4 월23						월23 수34				(5주 1일)
+// 
+// 자원을 관리하는 클래스 - STRING (컨테이너, 반복자, 알고리즘)
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include <array>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+// -------
+int main()
+// -------
+{	
+	관찰 = true;
+
+	std::array<STRING, 3> a{ "컨테이너", "반복자" , "알고리즘" };
+
+	// [문제] a에 들어있는 원소(element)를 처음부터 끝까지 역방향으로 순회(iteration)하면서 
+	// 값을 출력해보라
+
+	// a.rend() -> 반복자 어댑터 라고 부름
+	for (auto it = a.crbegin(); it != a.crend(); ++it)
+		std::cout << *it << std::endl;
+
+
+	save("stl.cpp");
+} 파일 이름 : stl.cpp, 파일 크기 : 880
+저장 시간 : 2022-04-04 11:35:22 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 4. 4 월23						월23 수34				(5주 1일)
+// 
+// 자원을 관리하는 클래스 - STRING (컨테이너, 반복자, 알고리즘)
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include <array>
+#include <algorithm>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+// -------
+int main()
+// -------
+{	
+	// 관찰 = true;
+
+	std::array<STRING, 3> a{ "12345", "33" , "123456789" };
+
+	// [문제] array를 길이 오름차순으로 정렬하고 결과를 출력하라
+
+	// 아래 정렬에서 레퍼런스를 쓰지 않으면 복사생성이 많이 일어나 효율이 매우 떨어짐
+	std::sort(a.begin(), a.end(), []( const STRING& a, const STRING& b ){
+			return a.getNum() < b.getNum();
+		} );
+
+	for (const auto& data : a)
+		std::cout << data << std::endl;
+
+	save("stl.cpp");
+} 파일 이름 : stl.cpp, 파일 크기 : 783
+저장 시간 : 2022-04-04 11:49:35 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 4. 4 월23						월23 수34				(5주 1일)
+// 
+// 컨테이너 - 다른 객체를 저장하는 객체
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include <array>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+// -------
+int main()
+// -------
+{
+	save("stl.cpp");
+
+	std::array<int, 10> a{ 0,1,2,3,4,5,6,7,8,9 };
+
+	while (true) {
+		int num;
+		std::cout << "몇번째 값? ";
+		std::cin >> num;
+
+		try {
+			std::cout << num << "번째 값은 - " << a.at(num) << std::endl;
+		}
+		catch (std::exception& e) {
+			std::cout << "잘못된 값입니다. " << std::endl;
+			std::cout << e.what() << std::endl;
+			continue;
+		}
+	}
+
+
+} 파일 이름 : stl.cpp, 파일 크기 : 877
+저장 시간 : 2022-04-04 12:00:29 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 4. 4 월23						월23 수34				(5주 1일)
+// 
+// 컨테이너 - 다른 객체를 저장하는 객체
+// Sequence Container
+//		- array	   유일하게 크기가 컴파일 타임에 결정되어야 함
+//		- vector   dynamic array
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include <vector>
+#include <fstream>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+// -------
+int main()
+// -------
+{
+	// [문제] "stl.cpp"의 char를 v에 저장하라. (공백포함)
+
+	std::ifstream in{ "stl.cpp" };
+
+	std::vector<char> v;
+	char c;
+	in >> std::noskipws;
+
+	while (in >> c)
+		v.push_back(toupper(c));
+
+	std::vector<std::string> v;
+	std::string s;
+	
+	while(in >> s)
+		v.push_back(s);
+
+	//std::vector<char> v{ std::istreambuf_iterator<char>{in}, {} };
+
+	for (const auto& data : v)
+		std::cout << data;
+
+
+	save("stl.cpp");
+} 파일 이름 : stl.cpp, 파일 크기 : 985
+저장 시간 : 2022-04-04 12:20:31 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 4. 4 월23						월23 수34				(5주 1일)
+// 
+// 컨테이너 - 다른 객체를 저장하는 객체
+// Sequence Container
+//		- array	   유일하게 크기가 컴파일 타임에 결정되어야 함
+//		- vector   dynamic array
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+// -------
+int main()
+// -------
+{
+	// [문제] 키보드에서 입력하는 모든 단어를 받아라.
+	// 오름차순으로 정렬한다
+	// 결과를 출력한다
+
+	std::vector<std::string> v;
+	std::string str;
+
+	std::cout << "단어를 입력" << std::endl;
+	while (std::cin >> str)
+		v.push_back(str);
+	
+	sort(v.begin(), v.end());
+
+	for (const std::string& s : v)
+		std::cout << s << std::endl;
+
+	// 저번시간 STRING 코드 문제점 왜 문제였는지 파악하고 알아보기
+
+	save("stl.cpp");
 } 

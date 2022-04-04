@@ -71,6 +71,12 @@ STRING STRING::operator+(const STRING& rhs) const
 
 }
 
+
+size_t STRING::getNum() const
+{
+	return num;
+}
+
 void STRING::print(const char* s) const 
 {
 	std::cout << s << " [" << id << "] 객체주소 : " << this << " 자원 -";

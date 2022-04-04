@@ -1,11 +1,16 @@
 //-----------------------------------------------------------------------------
-// 2022. 3. 31 수34						월23 수34				(4주 2일)
+// 2022. 4. 4 월23						월23 수34				(5주 1일)
 // 
-// 자원을 관리하는 클래스 - STRING (컨테이너, 반복자, 알고리즘)
+// 컨테이너 - 다른 객체를 저장하는 객체
+// Sequence Container
+//		- array	   유일하게 크기가 컴파일 타임에 결정되어야 함
+//		- vector   dynamic array
 //-----------------------------------------------------------------------------
 
 #include <iostream>
-#include <array>
+#include <vector>
+#include <string>
+#include <algorithm>
 #include "save.h"
 #include "STRING.h"
 
@@ -14,21 +19,24 @@ extern bool 관찰;
 // -------
 int main()
 // -------
-{	
-	//관찰 = true;
+{
+	// [문제] 키보드에서 입력하는 모든 단어를 받아라.
+	// 오름차순으로 정렬한다
+	// 결과를 출력한다
 
-	std::array<STRING, 3> strs{ "2022년 1학기 STL", "월23 수34", "3월 30일 수요일 수34교시 4주 2일 강의" };
+	std::vector<std::string> v;
+	std::string str;
 
-	for (int i = 0; i < strs.size(); ++i)
-		std::cout << "strs[" << i << "] - " << strs[i] << std::endl;
+	std::cout << "단어를 입력" << std::endl;
+	while (std::cin >> str)
+		v.push_back(str);
+	
+	sort(v.begin(), v.end());
 
-	std::cout << std::endl << std::endl;
-	std::cout << "strs의 STRING 3객체를 모두 더한 객체를 만들어 본다" << std::endl << std::endl;
+	for (const std::string& s : v)
+		std::cout << s << std::endl;
 
-	STRING all = strs[0] + strs[1] + strs[2];
-	std::cout << "모두 더하면 - " << all << std::endl;
+	// 저번시간 STRING 코드 문제점 왜 문제였는지 파악하고 알아보기
 
 	//save("stl.cpp");
-	
-	// cppreference.com 에서 Containers Library 부분 볼것
 } 

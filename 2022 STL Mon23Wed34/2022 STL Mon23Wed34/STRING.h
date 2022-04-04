@@ -19,9 +19,11 @@ public:
 	STRING& operator=(const STRING& other);
 
 	STRING operator+(const STRING& rhs) const;
+	
+	// 2022. 4. 4 Ãß°¡
+	size_t getNum() const;
 
 	void print(const char* s) const;
-
 
 	friend std::ostream& operator<<(std::ostream&, const STRING&);
 
