@@ -1,16 +1,16 @@
 //-----------------------------------------------------------------------------
-// 2022. 4. 4 월23						월23 수34				(5주 1일)
+// 2022. 4. 6 수34						월23 수34				(5주 2일)
 // 
 // 컨테이너 - 다른 객체를 저장하는 객체
-// Sequence Container
+// Sequence Container - 원소의 순서를 임의 지정 가능
 //		- array	   유일하게 크기가 컴파일 타임에 결정되어야 함
-//		- vector   dynamic array
+//		- vector   dynamic array (실행시간에 크기가 바뀌는 배열)
+// 
+//  중간시험 예정 - 4/27(수) (8주 2일)
 //-----------------------------------------------------------------------------
 
 #include <iostream>
 #include <vector>
-#include <string>
-#include <algorithm>
 #include "save.h"
 #include "STRING.h"
 
@@ -20,23 +20,24 @@ extern bool 관찰;
 int main()
 // -------
 {
-	// [문제] 키보드에서 입력하는 모든 단어를 받아라.
-	// 오름차순으로 정렬한다
-	// 결과를 출력한다
+	관찰 = true;
 
-	std::vector<std::string> v;
-	std::string str;
+	std::vector<STRING> v{"진짜 벡터를 알아본다"};
 
-	std::cout << "단어를 입력" << std::endl;
-	while (std::cin >> str)
-		v.push_back(str);
-	
-	sort(v.begin(), v.end());
+	v.emplace_back("STRING 추가");
 
-	for (const std::string& s : v)
-		std::cout << s << std::endl;
+	// 실행시간에 스택에서 메모리를 할당할 수 없다.
 
-	// 저번시간 STRING 코드 문제점 왜 문제였는지 파악하고 알아보기
+	// 먼저 스택에서 임시 객체를 생성한다.
+	// 벡터는 이 임시객체를 FreeStore 공간에 복사생성하여 메모리를 할당한다.
+	// 벡터는 스택에선 갯수, 수용량, 할당된 객체의 메모리를 담고있다.
+	// 벡터가 FreeStore에 할당된 메모리의 정보(주소, 갯수, 수용량)를 Stack에서 저장하였으면 임시객체를 소멸한다.
+	// 원소 추가시 수용량을 넘으면 추가할 객체를 임시생성한 것과 기존의 할당된 메모리를 복사하여 연결된 형태의 메모리를 할당한다.
+	// 이 작업이 끝나면 예전 할당된 객체와 임시객체를 소멸한다.
+
+	// emplace_back 을 쓰면 추가할때 임시 객체를 생성하지 않는다.
+	// 이동생성자를 구현하면 벡터의 선언때에도 임시객체를 생성하지 않는다.
+
 
 	//save("stl.cpp");
 } 
