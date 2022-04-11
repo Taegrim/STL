@@ -16,8 +16,6 @@
 
 #include <iostream>
 #include <fstream>
-#include <string>
-#include <algorithm>
 #include "save.h"
 #include "STRING.h"
 
@@ -35,30 +33,22 @@ int main()
 	//  ...
 	// [z] - 1
 
-	int alpha_count[26] = {};
+	int alphabet_count[26] = {};
 
 	std::ifstream in("stl.cpp");
 
-	std::string s;
+	char c;
+	while (in >> c) {
+		if (islower(c)) 
+			alphabet_count[c - 'a'] += 1;
 
-	if (in.is_open()) {
-		in.seekg(0, std::ios::end);
-		int size = in.tellg();
-
-		s.resize(size);
-		in.seekg(0, std::ios::beg);
-
-		in.read(&s[0], size);
-	}
-	
-	
-	for (int i = 0; i < s.size(); ++i) {
-		if ((s[i] >= 'a' && s[i] <= 'z')) {
+		 else if (isupper(c)) 
+			alphabet_count[c - 'A'] += 1;
 			
-		}
-		else if (s[i] >= 'A' && s[i] <= 'Z') {
+	}
 
-		}
+	for (int i{}; i < sizeof(alphabet_count) / sizeof(alphabet_count[0]); ++i) {
+		std::cout << (char)('a' + i) << " : " << alphabet_count[i] << std::endl;
 	}
 
 
