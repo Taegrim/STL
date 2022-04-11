@@ -17,6 +17,10 @@ public:
 
 	STRING(const STRING& other);
 	STRING& operator=(const STRING& other);
+	
+	// 이동생성 / 이동할당(대입)연산자 2022.04.11
+	STRING(STRING&& other) noexcept;
+	STRING& operator=(STRING&& other) noexcept;
 
 	STRING operator+(const STRING& rhs) const;
 	
