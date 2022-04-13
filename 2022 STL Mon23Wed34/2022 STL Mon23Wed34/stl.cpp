@@ -1,56 +1,51 @@
 //-----------------------------------------------------------------------------
-// 2022. 4. 11  월23						월23 수34				(6주 1일)
+// 2022. 4. 13  수34						월23 수34				(6주 2일)
 // 
 // 컨테이너 - 다른 객체를 저장하는 객체
 // Sequence Container - 원소의 순서를 임의 지정 가능
 //		- array	   유일하게 크기가 컴파일 타임에 결정되어야 함
 //		- vector   dynamic array (실행시간에 크기가 바뀌는 배열)
-// 
-//  STRING 클래스 이동지원 - 자원을 관리하는 클래스는 이동문법을 지원해야 함
-//		내가 사용하는 것이 아니라 컨테이너/알고리즘에서 사용
-// 
-//  클래스의 멤버 변수가 private이 아니라면 ???
+//		- deque	   벡터와 리스트의 중간단계, Contiguous Container가 아니다. 
+//				   벡터보다 더 많은 원소를 저장할 수 있다.
+//	
+// Associative Container
+// Unordered Associative Container
 // 
 //  중간시험 예정 - 4/20(수) (7주 2일)
 //-----------------------------------------------------------------------------
 
 #include <iostream>
+#include <deque>
+#include <string>
+#include <algorithm>
 #include <fstream>
 #include "save.h"
 #include "STRING.h"
 
 extern bool 관찰;
 
+// [문제] "stl.cpp" 파일의 단어를 deque<string>에 저장하라.
+// 길이 오름차순으로 정렬하라
+// 정렬된 결과를 출력하라
+
 // -------
 int main()
 // -------
 {
-	// [문제] "소스.cpp" 를 읽어 알파벳의 갯수를 다음과 같이 출력하라.
-	// 대소문자를 구분하진 않는다.
-
-	// [a] - 10
-	// [b] - 2
-	//  ...
-	// [z] - 1
-
-	int alphabet_count[26] = {};
-
 	std::ifstream in("stl.cpp");
 
-	char c;
-	while (in >> c) {
-		if (islower(c)) 
-			alphabet_count[c - 'a'] += 1;
+	std::deque<std::string> d;
 
-		 else if (isupper(c)) 
-			alphabet_count[c - 'A'] += 1;
-			
-	}
+	std::string s;
+	while (in >> s)
+		d.push_back(s);
+	
+	sort(d.begin(), d.end(), [](const std::string& a, const std::string& b) {
+		return a.size() < b.size();
+		});
 
-	for (int i{}; i < sizeof(alphabet_count) / sizeof(alphabet_count[0]); ++i) {
-		std::cout << (char)('a' + i) << " : " << alphabet_count[i] << std::endl;
-	}
-
-
-	 save("stl.cpp");
+	for (int i = 0; i < d.size(); ++i) 
+		std::cout << d[i] << std::endl;
+	
+	// save("stl.cpp");
 } 
