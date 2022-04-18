@@ -3792,4 +3792,666 @@ int main()
 		std::cout << d[i] << std::endl;
 	
 	save("stl.cpp");
+} 파일 이름 : stl.cpp, 파일 크기 : 1386
+저장 시간 : 2022-04-18 11:01:16 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 4. 18  월23						월23 수34				(7주 1일)
+// 
+// 컨테이너 - 다른 객체를 저장하는 객체
+// Sequence Container - 원소의 순서를 임의 지정 가능
+//		- array	   유일하게 크기가 컴파일 타임에 결정되어야 함
+//		- vector   dynamic array (실행시간에 크기가 바뀌는 배열)
+//				   벡터의 크기가 변경될 때 반복자가 무효화 될 수 있다(iterator invalidation)
+//		- deque	   벡터와 리스트의 중간단계, Contiguous Container가 아니다. 
+//				   벡터보다 더 많은 원소를 저장할 수 있다.
+//				   반복자가 무효화되지 않는다.
+// 
+// Associative Container
+// Unordered Associative Container
+// 
+//  중간시험 예정 - 4/20(수) (7주 2일)
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include <deque>
+#include <string>
+#include <algorithm>
+#include <fstream>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+// [문제] "stl.cpp" 파일의 단어를 deque<string>에 저장하라.
+// 내림차순으로 정렬하라.
+// 정렬된 결과를 출력하라
+
+// -------
+int main()
+// -------
+{
+	std::ifstream in("stl.cpp");
+
+	std::deque<std::string> d;
+
+	std::string s;
+	while (in >> s)
+		d.push_back(s);
+	
+	sort(d.begin(), d.end(), std::greater<std::string>());
+
+	for (const std::string& s : d)
+		std::cout << s << std::endl;
+	
+
+
+	save("stl.cpp");
+} 파일 이름 : stl.cpp, 파일 크기 : 1556
+저장 시간 : 2022-04-18 11:06:42 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 4. 18  월23						월23 수34				(7주 1일)
+// 
+// 컨테이너 - 다른 객체를 저장하는 객체
+// Sequence Container - 원소의 순서를 임의 지정 가능
+//		- array	   유일하게 크기가 컴파일 타임에 결정되어야 함
+//		- vector   dynamic array (실행시간에 크기가 바뀌는 배열)
+//				   벡터의 크기가 변경될 때 반복자가 무효화 될 수 있다(iterator invalidation)
+//		- deque	   벡터와 리스트의 중간단계, Contiguous Container가 아니다. 
+//				   벡터보다 더 많은 원소를 저장할 수 있다.
+//				   반복자가 무효화되지 않는다.
+// 
+// Associative Container
+// Unordered Associative Container
+// 
+//  중간시험 예정 - 4/20(수) (7주 2일)
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include <deque>
+#include <string>
+#include <algorithm>
+#include <fstream>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+// [문제] "stl.cpp" 파일의 단어를 deque<string>에 저장하라.
+// 내림차순으로 정렬하라.
+// 정렬된 결과를 출력하라
+
+// -------
+int main()
+// -------
+{
+	std::ifstream in("stl.cpp");
+
+	std::deque<std::string> d{ std::istream_iterator<std::string>{in}, {} };
+	// in파일에서 <string>을 읽는데 {} 까지 ( 읽을곳이 없을때 까지)
+
+	sort(d.begin(), d.end(), std::greater<std::string>());
+
+	
+	std::copy(d.begin(), d.end(), std::ostream_iterator<std::string>{std::cout, "\n"});
+	// 덱의 시작부터 끝까지 outstream으로 복사, osream은 <string> 이며 목표는 cout, 구분자는 \n
+
+
+	save("stl.cpp");
+} 파일 이름 : stl.cpp, 파일 크기 : 1773
+저장 시간 : 2022-04-18 11:15:37 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 4. 18  월23						월23 수34				(7주 1일)
+// 
+// 컨테이너 - 다른 객체를 저장하는 객체
+// 
+// STL contiguous containers - T[], array<T,N>, vector<T>, string
+// 
+// Sequence Container - 원소의 순서를 임의 지정 가능
+//		- array	   유일하게 크기가 컴파일 타임에 결정되어야 함
+//		- vector   dynamic array (실행시간에 크기가 바뀌는 배열)
+//				   벡터의 크기가 변경될 때 반복자가 무효화 될 수 있다(iterator invalidation)
+//		- deque	   벡터와 리스트의 중간단계, Contiguous Container가 아니다. 
+//				   벡터보다 더 많은 원소를 저장할 수 있다.
+//				   반복자가 무효화되지 않는다.
+// 
+// Associative Container
+// Unordered Associative Container
+// 
+//  중간시험 예정 - 4/20(수) (7주 2일)
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include <deque>
+#include <string>
+#include <algorithm>
+#include <fstream>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+// [문제] "Test.txt" 파일의 단어를 deque<string>에 저장하라.
+// 내림차순으로 정렬하라.
+// 각 단어를 오름차순으로 정렬하라.
+// 정렬된 결과를 출력하라
+
+// -------
+int main()
+// -------
+{
+	std::ifstream in("Test.txt");
+
+	std::deque<std::string> d{ std::istream_iterator<std::string>{in}, {} };
+	// in파일에서 <string>을 읽는데 {} 까지 ( 읽을곳이 없을때 까지)
+
+	sort(d.begin(), d.end(), std::greater<std::string>());
+
+	// 각 단어를 오름차순(ascending order) 정렬
+	for (std::string& s : d)
+		sort(s.begin(), s.end());
+
+	std::copy(d.begin(), d.end(), std::ostream_iterator<std::string>{std::cout, "\n"});
+	// 덱의 시작부터 끝까지 outstream으로 복사, osream은 <string> 이며 목표는 cout, 구분자는 \n
+
+
+	save("stl.cpp");
+} 파일 이름 : stl.cpp, 파일 크기 : 1687
+저장 시간 : 2022-04-18 11:37:40 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 4. 18  월23						월23 수34				(7주 1일)
+// 
+// 컨테이너 - 다른 객체를 저장하는 객체
+// 
+// STL contiguous containers - T[], array<T,N>, vector<T>, string
+// 
+// Sequence Container - 원소의 순서를 임의 지정 가능
+//		- array	   유일하게 크기가 컴파일 타임에 결정되어야 함
+//		- vector   dynamic array (실행시간에 크기가 바뀌는 배열)
+//				   벡터의 크기가 변경될 때 반복자가 무효화 될 수 있다(iterator invalidation)
+//		- deque	   벡터와 리스트의 중간단계, Contiguous Container가 아니다. 
+//				   벡터보다 더 많은 원소를 저장할 수 있다.
+//				   반복자가 무효화되지 않는다.
+// 
+// Associative Container
+// Unordered Associative Container
+// 
+//  중간시험 예정 - 4/20(수) (7주 2일)
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include <deque>
+#include <string>
+#include <algorithm>
+#include <fstream>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+// [문제] "Test.txt" 파일의 단어를 deque<string>에 저장하라.
+// 내림차순으로 정렬하라.
+// 각 단어를 오름차순으로 정렬하라.
+// 정렬된 결과를 출력하라
+
+// -------
+int main()
+// -------
+{
+	std::ifstream in("Test.txt");
+
+	std::deque<std::string> d;
+	std::string str;
+
+	while (in >> str)
+		d.push_back(str);
+
+	// [문제] library는 3번째 단어이다. 
+	// space라는 단어를 찾아라. 있다면 몇 번째 단어인가?
+
+
+	auto it = std::find(d.begin(), d.end(), "space");
+
+	if (it != d.end()) 
+		std::cout << it - d.begin() + 1 << " 번째 단어입니다." << std::endl;
+	else
+		std::cout << "찾는 단어가 없습니다. " << std::endl;
+	
+	save("stl.cpp");
+} 파일 이름 : stl.cpp, 파일 크기 : 1834
+저장 시간 : 2022-04-18 11:49:50 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 4. 18  월23						월23 수34				(7주 1일)
+// 
+// 컨테이너 - 다른 객체를 저장하는 객체
+// 
+// STL contiguous containers - T[], array<T,N>, vector<T>, string
+// 
+// Sequence Container - 원소의 순서를 임의 지정 가능
+//		- array	   유일하게 크기가 컴파일 타임에 결정되어야 함
+//		- vector   dynamic array (실행시간에 크기가 바뀌는 배열)
+//				   벡터의 크기가 변경될 때 반복자가 무효화 될 수 있다(iterator invalidation)
+//		- deque	   벡터와 리스트의 중간단계, Contiguous Container가 아니다. 
+//				   벡터보다 더 많은 원소를 저장할 수 있다.
+//				   반복자가 무효화되지 않는다.
+//		- list 
+// 
+// Associative Container
+// Unordered Associative Container
+// 
+//  중간시험 예정 - 4/20(수) (7주 2일)
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include <deque>
+#include <list>
+#include <string>
+#include <algorithm>
+#include <fstream>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+// [문제] "Test.txt" 파일의 단어를 deque<string>에 저장하라.
+// 내림차순으로 정렬하라.
+// 각 단어를 오름차순으로 정렬하라.
+// 정렬된 결과를 출력하라
+
+// -------
+int main()
+// -------
+{
+	std::ifstream in("Test.txt");
+
+	std::list<std::string> cont;
+	std::string str;
+
+	while (in >> str)
+		cont.push_back(str);
+
+	for (const std::string& s : cont)
+		std::cout << s << std::endl;
+	// cont[i] 와같은 [] 연산자는 사용할 수 없다.
+
+	// [문제] space는 몇번째 단어인지 출력하라
+
+	auto it = std::find(cont.begin(), cont.end(), "space");
+	
+	if (it == cont.end()) 
+		std::cout << "없는 단어입니다. " << std::endl;
+	else {
+		int idx = std::distance(it, cont.begin());
+		std::cout << idx + 1 << "번째 단어입니다. " << std::endl;
+	}
+
+	save("stl.cpp");
+} 파일 이름 : stl.cpp, 파일 크기 : 2131
+저장 시간 : 2022-04-18 11:58:48 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 4. 18  월23						월23 수34				(7주 1일)
+// 
+// 컨테이너 - 다른 객체를 저장하는 객체
+// 
+// STL contiguous containers - T[], array<T,N>, vector<T>, string
+// 
+// Sequence Container - 원소의 순서를 임의 지정 가능
+//		- array	   유일하게 크기가 컴파일 타임에 결정되어야 함
+//		- vector   dynamic array (실행시간에 크기가 바뀌는 배열)
+//				   벡터의 크기가 변경될 때 반복자가 무효화 될 수 있다(iterator invalidation)
+//		- deque	   벡터와 리스트의 중간단계, Contiguous Container가 아니다. 
+//				   벡터보다 더 많은 원소를 저장할 수 있다.
+//				   반복자가 무효화되지 않는다.
+//		- list 
+// 
+// Associative Container
+// Unordered Associative Container
+// 
+//  중간시험 예정 - 4/20(수) (7주 2일)
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include <deque>
+#include <list>
+#include <string>
+#include <algorithm>
+#include <fstream>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+// [문제] "Test.txt" 파일의 단어를 deque<string>에 저장하라.
+// 내림차순으로 정렬하라.
+// 각 단어를 오름차순으로 정렬하라.
+// 정렬된 결과를 출력하라
+
+// -------
+int main()
+// -------
+{
+	std::ifstream in("Test.txt");
+
+	std::list<std::string> cont;
+	std::string str;
+
+	while (in >> str)
+		cont.push_back(str);
+
+	// [문제] space는 몇번째 단어인지 출력하라
+
+	auto it = std::find(cont.begin(), cont.end(), "space");
+
+	if (it == cont.end())
+		std::cout << "없는 단어입니다." << std::endl;
+	else
+		std::cout << std::distance(cont.begin(), it) + 1 << "번째 단어입니다." << std::endl;
+
+
+	/*int step{};
+	auto beg = cont.begin();
+
+	while (true) {
+		if (beg == it) {
+			break;
+		}
+		else {
+			++beg;
+			++step;
+		}
+	}
+	std::cout << step + 1 << "번째 원소입니다." << std::endl;*/
+
+	//int cnt{};
+	//if (it == cont.end()) 
+	//	std::cout << "없는 단어입니다. " << std::endl;
+	//else {
+	//	for (auto p = cont.begin(); p != it; ++p)
+	//		++cnt;
+
+	//	std::cout << cnt + 1 << "번째 단어입니다." << std::endl;
+	//}
+
+	save("stl.cpp");
+} 파일 이름 : stl.cpp, 파일 크기 : 1768
+저장 시간 : 2022-04-18 12:08:37 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 4. 18  월23						월23 수34				(7주 1일)
+// 
+// 컨테이너 - 다른 객체를 저장하는 객체
+// 
+// STL contiguous containers - T[], array<T,N>, vector<T>, string
+// 
+// Sequence Container - 원소의 순서를 임의 지정 가능
+//		- array	   유일하게 크기가 컴파일 타임에 결정되어야 함
+//		- vector   dynamic array (실행시간에 크기가 바뀌는 배열)
+//				   벡터의 크기가 변경될 때 반복자가 무효화 될 수 있다(iterator invalidation)
+//		- deque	   벡터와 리스트의 중간단계, Contiguous Container가 아니다. 
+//				   벡터보다 더 많은 원소를 저장할 수 있다.
+//				   반복자가 무효화되지 않는다.
+//		- list 
+// 
+// Associative Container
+// Unordered Associative Container
+// 
+//  중간시험 예정 - 4/20(수) (7주 2일)
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include <deque>
+#include <list>
+#include <string>
+#include <algorithm>
+#include <fstream>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+// [문제] "Test.txt" 파일의 단어를 deque<string>에 저장하라.
+// 내림차순으로 정렬하라.
+// 각 단어를 오름차순으로 정렬하라.
+// 정렬된 결과를 출력하라
+
+// -------
+int main()
+// -------
+{
+	std::ifstream in("Test.txt");
+
+	std::list<std::string> cont;
+	std::string str;
+
+	while (in >> str)
+		cont.push_back(str);
+
+	// [문제] cont를 ascending order(오름차순)로 정렬하라.
+
+	cont.sort();
+
+	// [문제] space는 몇번째 단어인지 출력하라
+
+	auto it = std::find(cont.begin(), cont.end(), "space");
+
+	if (it == cont.end())
+		std::cout << "없는 단어입니다." << std::endl;
+	else
+		std::cout << std::distance(cont.begin(), it) + 1 << "번째 단어입니다." << std::endl;
+
+
+
+	save("stl.cpp");
+} 파일 이름 : stl.cpp, 파일 크기 : 1762
+저장 시간 : 2022-04-18 12:14:15 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 4. 18  월23						월23 수34				(7주 1일)
+// 
+// 컨테이너 - 다른 객체를 저장하는 객체
+// 
+// STL contiguous containers - T[], array<T,N>, vector<T>, string
+// 
+// Sequence Container - 원소의 순서를 임의 지정 가능
+//		- array	   유일하게 크기가 컴파일 타임에 결정되어야 함
+//		- vector   dynamic array (실행시간에 크기가 바뀌는 배열)
+//				   벡터의 크기가 변경될 때 반복자가 무효화 될 수 있다(iterator invalidation)
+//		- deque	   벡터와 리스트의 중간단계, Contiguous Container가 아니다. 
+//				   벡터보다 더 많은 원소를 저장할 수 있다.
+//				   반복자가 무효화되지 않는다.
+//		- list 
+// 
+// Associative Container
+// Unordered Associative Container
+// 
+//  중간시험 예정 - 4/20(수) (7주 2일)
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include <deque>
+#include <list>
+#include <string>
+#include <algorithm>
+#include <fstream>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+// [문제] "Test.txt" 파일의 단어를 deque<string>에 저장하라.
+// 내림차순으로 정렬하라.
+// 각 단어를 오름차순으로 정렬하라.
+// 정렬된 결과를 출력하라
+
+// -------
+int main()
+// -------
+{
+	std::ifstream in("Test.txt");
+
+	std::list<std::string> cont;
+	std::string str;
+
+	while (in >> str)
+		cont.push_back(str);
+
+	// [문제] cont를 ascending order(오름차순)로 정렬하라.
+
+	cont.sort();
+
+	// [문제] 앞에서부터 10개만 화면에 출력하라.
+	/*auto p{ cont.begin() };
+	for (int i = 0; i < 10; ++i)
+		std::cout << *p++ << std::endl;*/
+
+	// 뒤에서부터 10개만 출력하라.
+
+	auto p = cont.rbegin();
+	for (int i = 0; i < 10; ++i)
+		std::cout << *p++ << std::endl;
+	
+	save("stl.cpp");
+} 파일 이름 : stl.cpp, 파일 크기 : 1695
+저장 시간 : 2022-04-18 12:18:20 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 4. 18  월23						월23 수34				(7주 1일)
+// 
+// 컨테이너 - 다른 객체를 저장하는 객체
+// 
+// STL contiguous containers - T[], array<T,N>, vector<T>, string
+// 
+// Sequence Container - 원소의 순서를 임의 지정 가능
+//		- array	   유일하게 크기가 컴파일 타임에 결정되어야 함
+//		- vector   dynamic array (실행시간에 크기가 바뀌는 배열)
+//				   벡터의 크기가 변경될 때 반복자가 무효화 될 수 있다(iterator invalidation)
+//		- deque	   벡터와 리스트의 중간단계, Contiguous Container가 아니다. 
+//				   벡터보다 더 많은 원소를 저장할 수 있다.
+//				   반복자가 무효화되지 않는다.
+//		- list 
+// 
+// Associative Container
+// Unordered Associative Container
+// 
+//  중간시험 예정 - 4/20(수) (7주 2일)
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include <deque>
+#include <list>
+#include <string>
+#include <algorithm>
+#include <fstream>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+// [문제] "Test.txt" 파일의 단어를 deque<string>에 저장하라.
+// 내림차순으로 정렬하라.
+// 각 단어를 오름차순으로 정렬하라.
+// 정렬된 결과를 출력하라
+
+// -------
+int main()
+// -------
+{
+	std::ifstream in("Test.txt");
+
+	std::list<std::string> cont;
+	std::string str;
+
+	while (in >> str)
+		cont.push_back(str);
+
+	// [문제] cont를 ascending order(오름차순)로 정렬하라.
+
+	cont.sort();
+
+	// [문제] 글자수가 5개인 것만 화면에 출력하라
+	
+
+	std::copy_if(cont.begin(), cont.end(), std::ostream_iterator<std::string>{std::cout, "\n"}, [](const std::string& a) {
+		return a.size() == 5;
+		});
+
+	save("stl.cpp");
+} 파일 이름 : stl.cpp, 파일 크기 : 1889
+저장 시간 : 2022-04-18 12:20:54 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 4. 18  월23						월23 수34				(7주 1일)
+// 
+// 컨테이너 - 다른 객체를 저장하는 객체
+// 
+// STL contiguous containers - T[], array<T,N>, vector<T>, string
+// 
+// Sequence Container - 원소의 순서를 임의 지정 가능
+//		- array	   유일하게 크기가 컴파일 타임에 결정되어야 함
+//		- vector   dynamic array (실행시간에 크기가 바뀌는 배열)
+//				   벡터의 크기가 변경될 때 반복자가 무효화 될 수 있다(iterator invalidation)
+//		- deque	   벡터와 리스트의 중간단계, Contiguous Container가 아니다. 
+//				   벡터보다 더 많은 원소를 저장할 수 있다.
+//				   반복자가 무효화되지 않는다.
+//		- list 
+// 
+// Associative Container
+// Unordered Associative Container
+// 
+//  중간시험 예정 - 4/20(수) (7주 2일)
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include <deque>
+#include <list>
+#include <string>
+#include <algorithm>
+#include <fstream>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+// [문제] "Test.txt" 파일의 단어를 deque<string>에 저장하라.
+// 내림차순으로 정렬하라.
+// 각 단어를 오름차순으로 정렬하라.
+// 정렬된 결과를 출력하라
+
+// -------
+int main()
+// -------
+{
+	std::ifstream in("Test.txt");
+
+	std::list<std::string> cont;
+	std::string str;
+
+	while (in >> str)
+		cont.push_back(str);
+
+	// [문제] cont를 ascending order(오름차순)로 정렬하라.
+
+	cont.sort();
+
+	// [문제] 글자수가 5개인 것만 화면에 출력하라
+	
+
+	std::copy_if(cont.begin(), cont.end(), std::ostream_iterator<std::string>{std::cout, "\n"}, [](const std::string& a) {
+		return a.size() == 5;
+		});
+
+	// 글자수 5개 카운트
+
+	int num = std::count_if(cont.begin(), cont.end(), [](const std::string& a) {
+		return a.size() == 5;
+		});
+
+	std::cout << "5개의 글자수는 " << num << std::endl;
+
+	save("stl.cpp");
 } 
