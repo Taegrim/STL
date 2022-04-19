@@ -979,7 +979,7 @@ int main()
 	// int 4바이트 씩을 기록했지만 파일은 4024 바이트
 	// 그렇다면 무엇은 더 덧붙여 기록했는지 확인할 것
 	//  -> os 에 따라 엔터키에 해당하는 바이트를 달리 기록한다.
-	//  -> windows 는 엔터키를 2바이트로 할당하여 기록
+	//  -> windows 는 엔터키를 2바이트로 할당하여 기록 \r\n
 
 	std::ofstream out{ "int 1000개.txt" };
 
@@ -1105,6 +1105,7 @@ int main()
 	int max{};
 	
 	in.read((char*)num.data(), sizeof(int) * 1000);
+	// num.data() 는 배열이 비어있지 않다면 시작번지를 가져온다	
 
 	for (int data : num)
 		if (max < data)
@@ -1234,6 +1235,10 @@ int main()
 		std::cin >> num;
 
 		// 메모리를 줄 수 없다고 하면 어떻게 할지 처리
+		// new(std::nothrow) 를 사용하면 메모리 할당 실패 시 p를 nullptr로 초기화한다.
+		// 이 경우 if문으로 ptr이 초기화 되었는지를 검사할 수 있다.
+		// try-catch를 사용하면 catch 에서 std::bad_alloc& e 같은 형식으로 할당 실패를 검사할 수 있다.
+		// 루프에서는 가급적 try-catch는 사용하지 않을 것
 		int* p = new int[num];
 
 
@@ -1242,7 +1247,7 @@ int main()
 			p[i] = i + 1;
 
 		// int는 큰수의 합계는 구할 수 없음
-		// long long을 사용하면 int보다 큰수의 합계를 구할 수 있으
+		// long long을 사용하면 int보다 큰수의 합계를 구할 수 있음
 		int sum{};
 
 		for (int i{}; i < num; ++i)
@@ -2986,6 +2991,8 @@ int main()
 		v.push_back(s);
 
 	//std::vector<char> v{ std::istreambuf_iterator<char>{in}, {} };
+	//for (char c : v) 
+	//	cout << (char)toupper(c);
 
 	for (const auto& data : v)
 		std::cout << data;
@@ -4455,3 +4462,290 @@ int main()
 
 	save("stl.cpp");
 } 
+
+// ---------------------------------------------Player 읽어오기 예시 -----------------------------------------------
+// Player를 sort 하려면 복사생성/할당, 이동생성/할당을 처리해야함
+#include <iostream>
+#include <vector>
+#include <format>
+#include <algorithm>
+#include <fstream>
+#include <array>
+
+using namespace std;
+
+class Player {
+public:
+	string name;
+	int score;
+	int id;
+	size_t num;
+	char* p;
+public:
+	Player() : name{}, score{}, id{}, num{}, p{} {}
+	Player(const Player& other) : id{other.id}, num{other.num}, score{other.score},
+		name{ other.name }, p{new char[other.num]} 
+	{
+		// 복사생성
+		memcpy(p, other.p, num);
+	}
+
+	Player& operator=(const Player& other) {
+		if (this == &other)
+			return *this;
+
+		if (num)
+			delete[] p;
+
+		num = other.num;
+		score = other.score;
+		id = other.id;
+		name = other.name;
+
+		p = new char[num];
+		memcpy(p, other.p, num);
+
+		return *this;
+		// 복사 할당
+	}
+
+	Player(Player&& other) noexcept
+	{
+		// 이동생성
+		num = other.num;
+		p = other.p;
+		score = other.score;
+		name = other.name;
+		id = other.id;
+
+		other.num = 0;
+		other.p = nullptr;
+		
+	}
+
+	Player& operator=(Player&& other) noexcept {
+		if (this == &other)
+			return *this;
+
+		if (num)
+			delete[] p;
+
+		num = other.num;
+		score = other.score;
+		id = other.id;
+		name = other.name;
+		p = other.p;
+
+		other.num = 0;
+		other.p = nullptr;
+
+		return *this;
+		// 이동 할당
+	}
+
+
+	~Player() {
+		if (num)
+			delete[] p;
+	}
+	
+	size_t getNum() { return num; }
+	int getScore() { return score; }
+	int getId() { return id; }
+	std::string getName() { return name; }
+
+	void write(ostream& os) {
+		os.write((char*)this, sizeof(Player));
+		os.write((char*)p, num);
+	}
+
+	void read(istream& is) {
+		is.read((char*)this, sizeof(Player));
+		p = new char[num];
+		is.read((char*)p, num);
+	}
+
+	void show() const {
+		cout << format("이름:{0:<15}, 아이디:{1:<7}, 점수:{2:<10}, 자원수:{3} "
+			, name, id, score, num) << endl;
+	}
+
+	void show_memory() {
+		std::cout << "메모리 번지 : " << &p << std::endl;
+		for (int i = 0; i < num; ++i)
+			std::cout << p[i];
+		std::cout << std::endl;
+	}
+
+	friend istream& operator>>(istream& is, Player& p);
+};
+
+istream& operator>>(istream& is, Player& p) 
+{
+	p.read(is);
+	return is;
+}
+
+int main()
+{
+
+	ifstream in("2022 STL 과제 파일", ios::binary );
+
+	vector<Player> v(2'000'000);
+
+	for (int i{}; i < v.size(); ++i) {
+		in.read((char*)&v[i], sizeof(Player));
+		v[i].p = new char[v[i].num];
+		in.read((char*)v[i].p, v[i].num);
+	}
+
+	/*int cnt{};
+	while (in >> v[cnt])
+		cnt++;
+	*/
+
+	sort(v.begin(), v.end(), [](const Player& a, const Player& b) {
+		return a.name > b.name;
+		});
+	
+	for (int i{}; i < v.size(); ++i) {
+		v[i].show();
+	}
+	cout << "종료" << endl;
+	
+}
+
+
+// -----------------------------------------------------------------------------------------------------------------
+
+//---------------------------------------STRING 클래스 구현--------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+// STRING - STL 관찰하려고 만든 자원 관리 클래스
+// 
+// 2022. 3. 30									Programmed by Taegrim
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include "STRING.h"
+
+bool 관찰{ false };		// 관찰메세지를 보려면 -> true
+int STRING::gid{};		// STRING static
+
+
+STRING::STRING() : id{ ++gid }, num{}, p{} 
+{
+	if (관찰)
+		print("디폴트");
+}
+
+STRING::STRING(const char* s) : id{ ++gid }, num{ strlen(s) }, p{ new char[strlen(s)]}
+{
+	memcpy(p, s, num);
+	if (관찰)
+		print("생성자(*)");
+}
+
+STRING::~STRING() 
+{
+	if (관찰)
+		print("소멸자");
+	if (num)
+		delete[] p;
+}
+
+STRING::STRING(const STRING& other) 
+	: id{ ++gid }, num{ other.num }, p{ new char[other.num] } 
+{
+	memcpy(p, other.p, num);
+	if (관찰)
+		print("복사 생성자");
+}
+
+STRING& STRING::operator=(const STRING& other)
+{
+	if (this == &other)
+		return *this;
+
+	if (num)
+		delete[] p;
+
+	num = other.num;
+
+	p = new char[num];
+	memcpy(p, other.p, num);
+
+	if (관찰)
+		print("복사할당");
+
+	return *this;
+}
+
+// 이동생성자/이동할당 연산자 2022.04.11
+STRING::STRING(STRING&& other) noexcept
+	: id{ ++gid }
+{
+	num = other.num;
+	p = other.p;
+
+	other.num = 0;
+	other.p = nullptr;
+
+	if (관찰)
+		print("이동생성");
+
+}
+
+STRING& STRING::operator=(STRING&& other) noexcept
+{
+	if (this != &other) {
+		if (num)
+			delete[] p;
+
+		num = other.num;
+		p = other.p;
+
+		other.num = 0;
+		other.p = nullptr;
+	}
+
+
+	if (관찰)
+		print("이동할당");
+
+	return *this;
+}
+
+STRING STRING::operator+(const STRING& rhs) const 
+{
+	STRING temp;
+	temp.num = num + rhs.num;
+	temp.p = new char[temp.num];
+	memcpy(temp.p, p, num);
+	memcpy(temp.p + num, rhs.p, rhs.num);
+
+	return temp;
+
+}
+
+
+size_t STRING::getNum() const
+{
+	return num;
+}
+
+void STRING::print(const char* s) const 
+{
+	std::cout << s << " [" << id << "] 객체주소 : " << this << " 자원 -";
+	if (num != 0)
+		std::cout << " 갯수 : " << num << " 자원 주소: " << (void*)p << std::endl;
+	else
+		std::cout << "  없음" << std::endl;
+}
+
+std::ostream& operator<<(std::ostream& os, const STRING& s)
+{
+	for (int i{}; i < s.num; ++i)
+		os << s.p[i];
+	return os;
+}
+//-----------------------------------------------------------------------------------------------------------------
