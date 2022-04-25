@@ -4405,7 +4405,8 @@ int main()
 //		- deque	   벡터와 리스트의 중간단계, Contiguous Container가 아니다. 
 //				   벡터보다 더 많은 원소를 저장할 수 있다.
 //				   반복자가 무효화되지 않는다.
-//		- list 
+//		- list      리스트는 포인터2개씩 추가하기에 객체마다 16바이트가 추가되어
+//			메모리상 비효율적임
 // 
 // Associative Container
 // Unordered Associative Container
@@ -4748,4 +4749,134 @@ std::ostream& operator<<(std::ostream& os, const STRING& s)
 		os << s.p[i];
 	return os;
 }
-//-----------------------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------------파일 이름 : stl.cpp, 파일 크기 : 751
+저장 시간 : 2022-04-25 11:52:40 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 4. 25  월23						월23 수34				(8주 1일)
+// 
+// 컨테이너 - 다른 객체를 저장하는 객체
+// 
+// STL contiguous containers - T[], array<T,N>, vector<T>, string
+// 
+// Sequence Container
+//		반복자
+// 
+// forward_list -
+//		C 스타일의 단일 연결리스트에 비해 시간/공간상 효율이 좋음
+// 
+// Associative Container
+// Unordered Associative Container
+// 
+// 6/6(월) 현충일 수업할 예정 - (6/1(수) 에 선거날이어서 현충일에 수업)
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+// -------
+int main()
+// -------
+{
+	
+	save("stl.cpp");
+} 파일 이름 : stl.cpp, 파일 크기 : 1135
+저장 시간 : 2022-04-25 12:12:26 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 4. 25  월23						월23 수34				(8주 1일)
+// 
+// 컨테이너 - 다른 객체를 저장하는 객체
+// 
+// STL contiguous containers - T[], array<T,N>, vector<T>, string
+// 
+// Sequence Container
+// 
+// 반복자 -
+//	C++ 프로그램에서 컨테이너와 상관없이 일관된 방식으로 작동하기 위한 포인터를 추상화한 형태
+//
+// Associative Container
+// Unordered Associative Container
+// 
+// 6/6(월) 현충일 수업할 예정 - (6/1(수) 에 선거날이어서 현충일에 수업)
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+// -------
+int main()
+// -------
+{
+	// 모니터 화면을 가리키는 포인터처럼 포인터를 추상화한 반복자
+	std::ostream_iterator<char> p{ std::cout };		// p는 모니터 좌상단 위치
+	/**p = 'A';
+	++p;
+	*p = 'B';
+	++p;
+	*p = 'C';*/
+	// 역방향 반복자를 코딩하면 *를 참조하는 이유를 알 수 있음
+
+	// 출력 반복자이기에 * 참조없이 글자쓰기 가능, 쓰고난 뒤엔 ++이 자동으로 이루어짐
+	p = 'A';
+	p = 'B';
+	p = 'C';
+
+
+	save("stl.cpp");
+} 파일 이름 : stl.cpp, 파일 크기 : 1174
+저장 시간 : 2022-04-25 12:22:20 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 4. 25  월23						월23 수34				(8주 1일)
+// 
+// 컨테이너 - 다른 객체를 저장하는 객체
+// 
+// STL contiguous containers - T[], array<T,N>, vector<T>, string
+// 
+// Sequence Container
+// 
+// 반복자 -
+//	C++ 프로그램에서 컨테이너와 상관없이 일관된 방식으로 작동하기 위한 포인터를 추상화한 형태
+//
+// Associative Container
+// Unordered Associative Container
+// 
+// 6/6(월) 현충일 수업할 예정 - (6/1(수) 에 선거날이어서 현충일에 수업)
+//-----------------------------------------------------------------------------
+
+#include <iostream>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+template<typename T>
+void show(T iter)
+{
+	// [문제] iter의 category를 출력하라.
+
+	std::cout << typeid(iter).name() << std::endl;
+}
+
+// -------
+int main()
+// -------
+{
+	// 반복자 종류를 출력해 본다 - show() : 반복자 종류를 출력하는 함수
+	
+	// 템플릿 함수에는 뭐가 전달될지 모른다. - 알았으면 더 좋은 코딩하겠는데...
+
+	show(1);
+	show(1.0);
+	show(std::istream_iterator<char>{std::cin});
+	show(std::ostream_iterator<char>{std::cout});
+
+	save("stl.cpp");
+} 

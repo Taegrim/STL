@@ -1,71 +1,47 @@
 //-----------------------------------------------------------------------------
-// 2022. 4. 18  월23						월23 수34				(7주 1일)
+// 2022. 4. 25  월23						월23 수34				(8주 1일)
 // 
 // 컨테이너 - 다른 객체를 저장하는 객체
 // 
 // STL contiguous containers - T[], array<T,N>, vector<T>, string
 // 
-// Sequence Container - 원소의 순서를 임의 지정 가능
-//		- array	   유일하게 크기가 컴파일 타임에 결정되어야 함
-//		- vector   dynamic array (실행시간에 크기가 바뀌는 배열)
-//				   벡터의 크기가 변경될 때 반복자가 무효화 될 수 있다(iterator invalidation)
-//		- deque	   벡터와 리스트의 중간단계, Contiguous Container가 아니다. 
-//				   벡터보다 더 많은 원소를 저장할 수 있다.
-//				   반복자가 무효화되지 않는다.
-//		- list 
+// Sequence Container
 // 
+// 반복자 -
+//	C++ 프로그램에서 컨테이너와 상관없이 일관된 방식으로 작동하기 위한 포인터를 추상화한 형태
+//
 // Associative Container
 // Unordered Associative Container
 // 
-//  중간시험 예정 - 4/20(수) (7주 2일)
+// 6/6(월) 현충일 수업할 예정 - (6/1(수) 에 선거날이어서 현충일에 수업)
 //-----------------------------------------------------------------------------
 
 #include <iostream>
-#include <deque>
-#include <list>
-#include <string>
-#include <algorithm>
-#include <fstream>
 #include "save.h"
 #include "STRING.h"
 
 extern bool 관찰;
 
-// [문제] "Test.txt" 파일의 단어를 deque<string>에 저장하라.
-// 내림차순으로 정렬하라.
-// 각 단어를 오름차순으로 정렬하라.
-// 정렬된 결과를 출력하라
+template<typename T>
+void show(T iter)
+{
+	// [문제] iter의 category를 출력하라.
+
+	std::cout << typeid(iter).name() << std::endl;
+}
 
 // -------
 int main()
 // -------
 {
-	std::ifstream in("Test.txt");
-
-	std::list<std::string> cont;
-	std::string str;
-
-	while (in >> str)
-		cont.push_back(str);
-
-	// [문제] cont를 ascending order(오름차순)로 정렬하라.
-
-	cont.sort();
-
-	// [문제] 글자수가 5개인 것만 화면에 출력하라
+	// 반복자 종류를 출력해 본다 - show() : 반복자 종류를 출력하는 함수
 	
+	// 템플릿 함수에는 뭐가 전달될지 모른다. - 알았으면 더 좋은 코딩하겠는데...
 
-	std::copy_if(cont.begin(), cont.end(), std::ostream_iterator<std::string>{std::cout, "\n"}, [](const std::string& a) {
-		return a.size() == 5;
-		});
+	show(1);
+	show(1.0);
+	show(std::istream_iterator<char>{std::cin});
+	show(std::ostream_iterator<char>{std::cout});
 
-	// 글자수 5개 카운트
-
-	int num = std::count_if(cont.begin(), cont.end(), [](const std::string& a) {
-		return a.size() == 5;
-		});
-
-	std::cout << "5개의 글자수는 " << num << std::endl;
-
-	// save("stl.cpp");
+	save("stl.cpp");
 } 
