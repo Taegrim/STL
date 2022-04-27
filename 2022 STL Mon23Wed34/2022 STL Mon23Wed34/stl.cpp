@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// 2022. 4. 25  월23						월23 수34				(8주 1일)
+// 2022. 4. 27  수34						월23 수34				(8주 2일)
 // 
 // 컨테이너 - 다른 객체를 저장하는 객체
 // 
@@ -13,35 +13,35 @@
 // Associative Container
 // Unordered Associative Container
 // 
-// 6/6(월) 현충일 수업할 예정 - (6/1(수) 에 선거날이어서 현충일에 수업)
+// C++20 concept / (나머지3개) module, range, coroutine
+// 
+// 오늘 코딩해서 알아볼 내용
+// - 반복자 종류 판정
+// - STRING의 반복자를 코딩 - 반복자는 컨테이너가 제공하는 클래스가 되어야 함
+// - sort(str.begin(), str.end()); STRING을 sort 되도록 하자
 //-----------------------------------------------------------------------------
-
 #include <iostream>
+#include <algorithm>
+#include <string>
+#include <array>
 #include "save.h"
 #include "STRING.h"
 
 extern bool 관찰;
 
-template<typename T>
-void show(T iter)
-{
-	// [문제] iter의 category를 출력하라.
-
-	std::cout << typeid(iter).name() << std::endl;
-}
-
 // -------
 int main()
 // -------
 {
-	// 반복자 종류를 출력해 본다 - show() : 반복자 종류를 출력하는 함수
+	STRING str{ "The quick brown fox jumps over the lazy dog" };
+
+	// [도전!] str을 sort로 정렬할 수 있게 한다.
+
+	// std::sort(str.begin(), str.end());
+
+	for (char c : str)
+		std::cout << c;
+	std::cout << std::endl;
 	
-	// 템플릿 함수에는 뭐가 전달될지 모른다. - 알았으면 더 좋은 코딩하겠는데...
-
-	show(1);
-	show(1.0);
-	show(std::istream_iterator<char>{std::cin});
-	show(std::ostream_iterator<char>{std::cout});
-
 	save("stl.cpp");
 } 

@@ -106,7 +106,6 @@ STRING STRING::operator+(const STRING& rhs) const
 
 }
 
-
 size_t STRING::getNum() const
 {
 	return num;

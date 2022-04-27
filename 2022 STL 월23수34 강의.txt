@@ -4879,4 +4879,207 @@ int main()
 	show(std::ostream_iterator<char>{std::cout});
 
 	save("stl.cpp");
+} 파일 이름 : stl.cpp, 파일 크기 : 1612
+저장 시간 : 2022-04-27 11:48:26 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 4. 27  수34						월23 수34				(8주 2일)
+// 
+// 컨테이너 - 다른 객체를 저장하는 객체
+// 
+// STL contiguous containers - T[], array<T,N>, vector<T>, string
+// 
+// Sequence Container
+// 
+// 반복자 -
+//	C++ 프로그램에서 컨테이너와 상관없이 일관된 방식으로 작동하기 위한 포인터를 추상화한 형태
+//
+// Associative Container
+// Unordered Associative Container
+// 
+// C++20 concept / (나머지3개) module, range, coroutine
+// 
+// 오늘 코딩해서 알아볼 내용
+// 반복자 종류 판정
+// STRING의 반복자를 코딩
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <forward_list>
+#include <list>
+#include <deque>
+#include <vector>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+template<typename iter>
+void show(iter)
+{
+	// [문제] iter의 category를 출력하라.
+
+	std::cout << typeid(std::iterator_traits<iter>::iterator_category).name() << std::endl;
+
+	// 반복자는 종류가 다름을 판단할 수 있음
+}
+
+// -------
+int main()
+// -------
+{
+	// 반복자 종류를 출력해 본다 - show() : 반복자 종류를 출력하는 함수
+	
+	// 템플릿 함수에는 뭐가 전달될지 모른다. - 알았으면 더 좋은 코딩하겠는데...
+
+	int* p{};
+
+	show(p);	// 모든 T* 는 랜덤억세스 반복자로 등록되어 있다.
+	show(std::istream_iterator<char>{std::cin});
+	show(std::ostream_iterator<char>{std::cout});
+	show(std::forward_list<char>::iterator());
+	show(std::list<char>{}.begin());
+	show(std::deque<char>::iterator());
+	show(std::vector<char>::iterator());
+
+	save("stl.cpp");
+} 파일 이름 : stl.cpp, 파일 크기 : 931
+저장 시간 : 2022-04-27 12:06:30 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 4. 27  수34						월23 수34				(8주 2일)
+// 
+// 컨테이너 - 다른 객체를 저장하는 객체
+// 
+// STL contiguous containers - T[], array<T,N>, vector<T>, string
+// 
+// Sequence Container
+// 
+// 반복자 -
+//	C++ 프로그램에서 컨테이너와 상관없이 일관된 방식으로 작동하기 위한 포인터를 추상화한 형태
+//
+// Associative Container
+// Unordered Associative Container
+// 
+// C++20 concept / (나머지3개) module, range, coroutine
+// 
+// 오늘 코딩해서 알아볼 내용
+// 반복자 종류 판정
+// STRING의 반복자를 코딩
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+// -------
+int main()
+// -------
+{
+	STRING str{ "Hello" };
+
+	for (char c : str)
+		std::cout << c << " ";
+	std::cout << std::endl;
+
+
+
+	save("stl.cpp");
+} 파일 이름 : stl.cpp, 파일 크기 : 1219
+저장 시간 : 2022-04-27 13:02:30 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 4. 27  수34						월23 수34				(8주 2일)
+// 
+// 컨테이너 - 다른 객체를 저장하는 객체
+// 
+// STL contiguous containers - T[], array<T,N>, vector<T>, string
+// 
+// Sequence Container
+// 
+// 반복자 -
+//	C++ 프로그램에서 컨테이너와 상관없이 일관된 방식으로 작동하기 위한 포인터를 추상화한 형태
+//
+// Associative Container
+// Unordered Associative Container
+// 
+// C++20 concept / (나머지3개) module, range, coroutine
+// 
+// 오늘 코딩해서 알아볼 내용
+// - 반복자 종류 판정
+// - STRING의 반복자를 코딩 - 반복자는 컨테이너가 제공하는 클래스가 되어야 함
+// - sort(str.begin(), str.end()); STRING을 sort 되도록 하자
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+// -------
+int main()
+// -------
+{
+	STRING str{ "Hello" };
+
+	// sort(str.begin(), str.end()); STRING을 sort 되도록 하자
+
+	// 역방향 반복자를 만들어 다음 코드가 실행되게 하라
+
+	for (auto i = str.rbegin(); i != str.rend(); ++i)
+		std::cout << *i << " ";
+	std::cout << std::endl;
+
+	
+	save("stl.cpp");
+} 파일 이름 : stl.cpp, 파일 크기 : 1225
+저장 시간 : 2022-04-27 13:21:44 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 4. 27  수34						월23 수34				(8주 2일)
+// 
+// 컨테이너 - 다른 객체를 저장하는 객체
+// 
+// STL contiguous containers - T[], array<T,N>, vector<T>, string
+// 
+// Sequence Container
+// 
+// 반복자 -
+//	C++ 프로그램에서 컨테이너와 상관없이 일관된 방식으로 작동하기 위한 포인터를 추상화한 형태
+//
+// Associative Container
+// Unordered Associative Container
+// 
+// C++20 concept / (나머지3개) module, range, coroutine
+// 
+// 오늘 코딩해서 알아볼 내용
+// - 반복자 종류 판정
+// - STRING의 반복자를 코딩 - 반복자는 컨테이너가 제공하는 클래스가 되어야 함
+// - sort(str.begin(), str.end()); STRING을 sort 되도록 하자
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <string>
+#include <array>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+// -------
+int main()
+// -------
+{
+	STRING str{ "The quick brown fox jumps over the lazy dog" };
+
+	// [도전!] str을 sort로 정렬할 수 있게 한다.
+
+	// std::sort(str.begin(), str.end());
+
+	for (char c : str)
+		std::cout << c;
+	std::cout << std::endl;
+	
+	save("stl.cpp");
 } 
