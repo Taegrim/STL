@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------------
 
 #include <iostream>
+#include <string>
 #include "STRING.h"
 
 bool 관찰{ false };		// 관찰메세지를 보려면 -> true
@@ -125,4 +126,16 @@ std::ostream& operator<<(std::ostream& os, const STRING& s)
 	for (int i{}; i < s.num; ++i)
 		os << s.p[i];
 	return os;
+}
+
+// 2022. 5. 2 입력 반복자가 >> 로 읽을 수 있게
+std::istream& operator>>(std::istream& is, STRING& s)
+{
+	std::string str;
+	is >> str;
+
+	// s는 (const char*) = str을 const char*로 변신
+	s = STRING(str.c_str());
+
+	return is;
 }

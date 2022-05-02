@@ -11,26 +11,48 @@
 
 // 2022. 4. 27 STRING이 제공하는 반복자
 class STRING_iterator {
+public:
+	// 2022. 5. 2 모든 표준 반복자는 이 다섯가지 타입을 정의해야 한다
+	using iterator_category = std::random_access_iterator_tag;
+	using value_type = char;
+	using difference_type = ptrdiff_t;
+	using pointer = const char*;
+	using reference = const char&;
+
 private:
 	char* p;
 
 public:
 	STRING_iterator(char* p) : p{ p } {}
 
-	/*std::_Get_difference_type operator-(const STRING_iterator& rhs) const {
+	// 2022. 5. 2 sort에 필요한 연산자들 정의
+	difference_type operator-(const STRING_iterator& rhs) const {
 		return p - rhs.p;
-	}*/
+	}
 
 	STRING_iterator& operator++() {
 		++p;
 		return *this;
 	}
 
-	char& operator* () const {
+	auto operator<=>(const STRING_iterator&) const = default;
+
+	char& operator*() const {
 		return *p;
 	}
 
-	auto operator<=>(const STRING_iterator& rhs) const = default;
+	STRING_iterator& operator--() {
+		--p;
+		return *this;
+	}
+
+	STRING_iterator operator+(difference_type d) const {
+		return STRING_iterator{ p + d };
+	}
+
+	STRING_iterator operator-(difference_type d) const {
+		return STRING_iterator{ p - d };
+	}
 };
 
 
@@ -85,6 +107,11 @@ public:
 
 	STRING operator+(const STRING& rhs) const;
 	
+	// 2022. 5. 2 default < 연산자
+	bool operator<(const STRING& rhs) const {
+		return num < rhs.num;
+	}
+
 	// 2022. 4. 27 begin()/end() 제공, const를 붙일 것
 	iterator begin() const {
 		return iterator{ p };
@@ -106,6 +133,9 @@ public:
 	void print(const char* s) const;
 
 	friend std::ostream& operator<<(std::ostream&, const STRING&);
+	// 2022. 5. 2 입력 반복자가 >> 로 읽을 수 있게
+	friend std::istream& operator>>(std::istream&, STRING&);
 
+	
 };
 
