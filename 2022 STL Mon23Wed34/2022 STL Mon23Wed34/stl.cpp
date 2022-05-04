@@ -1,66 +1,44 @@
 //-----------------------------------------------------------------------------
-// 2022. 5. 2  월23						월23 수34				 (9주 1일)
+// 2022. 5. 4  수34						월23 수34				 (9주 2일)
 // 
 // 컨테이너 - 다른 객체를 저장하는 객체
-// 
-// STL contiguous containers - T[], array<T,N>, vector<T>, string
-// 
-// Sequence Container
-// 
-// 반복자 -
-//	C++ 프로그램에서 컨테이너와 상관없이 일관된 방식으로 작동하기 위한 포인터를 추상화한 형태
-//
 // Associative Container
 // Unordered Associative Container
 // 
-// 오늘 코딩해서 알아볼 내용
-// STRING이 제공하는 반복자가 random_access_iterator가 되도록 코딩한다
+// C++20 span
 //-----------------------------------------------------------------------------
 #include <iostream>
-#include <algorithm>
 #include <vector>
-#include <fstream>
-#include <string>
+#include <span>
 #include "save.h"
 #include "STRING.h"
 
 extern bool 관찰;
 
-//bool operator<(const STRING& lhs, const STRING& rhs)
-//{
-//	// 사전식 비교 알고리즘 함수
-//	return std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
-//
-//	//return std::string(lhs.begin(), lhs.end()) < std::string(rhs.begin(), rhs.end());
-//}
+// 메모리가 contiguous인 자료구조를 일관된 방식으로 코딩하기 위한 span(view)
+void print(std::span<int> a);
+
+void print(const std::span<int> a)
+{
+	std::cout << "스팬 - 전체 메모리 : " << a.size_bytes() << std::endl;
+	for (int n : a)
+		std::cout << n << std::endl;
+}
 
 
 // -------
 int main()
 // -------
 {
-	STRING str;
-	
-	// [문제] 글자를 입력받아 단어의 몇 번째 글자인지 출력하라
-	save("stl.cpp");
+	std::vector<int> a{1, 2, 3, 4, 5};
 
-	std::cout << "단어를 입력하세요: ";
-	std::cin >> str;
+	// [문제] print는 a를 인자로 받아 값을 전부 출력한다.
+	// p를 선언하고 정의하라
+	print(a);
+
+	int b[]{ 1,2,3,4,5,6,7,8,9,10 };
+	print(b);
 
 
-	while(true){
-		std::cout << "찾을 글자는? ";
-		char c;
-		std::cin >> c;
-		
-		// 다음이 해결되도록 my_find 함수를 만들어라
-		//auto p = my_find(str.begin(), str.end(), c);
-		auto p = std::find(str.begin(), str.end(), c);
-		if (p == str.end())
-			std::cout << c << "는 단어에 없습니다" << std::endl;
-		else
-			std::cout << c << "는 " << std::distance(str.begin(), p) + 1 
-			<< "번째 글자입니다." << std::endl;
-	}
-
+	//save("stl.cpp");
 } 
