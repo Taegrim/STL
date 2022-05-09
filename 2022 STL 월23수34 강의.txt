@@ -6167,4 +6167,423 @@ int main()
 	print(b);
 
 	save("stl.cpp");
+} 파일 이름 : stl.cpp, 파일 크기 : 1361
+저장 시간 : 2022-05-09 10:53:17 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 5. 9  월23						월23 수34				 (10주 1일)
+// 
+// 컨테이너 - 다른 객체를 저장하는 객체
+// Associative Container
+// Unordered Associative Container
+// 
+// C++20 span
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <vector>
+#include <span>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+// 메모리가 contiguous인 자료구조를 일관된 방식으로 코딩하기 위한 span(view)
+//void print(std::span<int> a);
+
+void print(const std::span<int> a)
+{
+	std::cout << "스팬 - 전체 메모리 : " << a.size_bytes() << std::endl;
+	for (int n : a)
+		std::cout << n << " ";
+	std::cout << std::endl;
+}
+
+void print(const std::span<char> a)
+{
+	std::cout << "스팬(char) - 전체 메모리 : " << a.size_bytes() << std::endl;
+	for (char n : a)
+		std::cout << n << " ";
+	std::cout << std::endl;
+}
+
+// -------
+int main()
+// -------
+{
+	std::vector<int> a{1, 2, 3, 4, 5};
+
+	// [문제] print는 vector를 인자로 받아 값을 전부 출력한다.
+	// print를 선언하고 정의하라
+	print(std::span(a));
+
+	int b[]{ 1,2,3,4,5,6,7,8,9,10 };
+	print(std::span(b));
+
+	STRING s{ "Hello, span!" };
+	//print(std::span<char>(시작번지, 갯수));
+	print( std::span<char>(&(*s.begin()), s.getNum()) );
+
+
+	save("stl.cpp");
+} 파일 이름 : stl.cpp, 파일 크기 : 1067
+저장 시간 : 2022-05-09 11:18:07 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 5. 9  월23						월23 수34				 (10주 1일)
+// 
+// 컨테이너 - 다른 객체를 저장하는 객체
+// Associative Container
+//  set - 원소를 항상 정렬상태로 유지, 찾기, 제거, 추가( O(log n) )
+//      - set의 주요 동작
+//      - 내가 만든 type을 set에 넣으려면?
+//      - left, right를 가리키는 메모리를 필요로 하기에 원소당 16바이트씩 추가로 잡음
+// 
+// Unordered Associative Container
+// 
+// C++20 span
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <set>
+#include <vector>
+#include <numeric>
+#include <random>
+#include <format>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+std::random_device rd;
+std::default_random_engine dre{ rd() };
+
+// -------
+int main()
+// -------
+{
+	std::vector<int> v(100);
+	iota(v.begin(), v.end(), 1);
+	std::shuffle(v.begin(), v.end(), dre);
+	
+
+	for (int n : v)
+		std::cout << std::format("{:4}", n);
+	std::cout << std::endl;
+
+	save("stl.cpp");
+} 파일 이름 : stl.cpp, 파일 크기 : 1377
+저장 시간 : 2022-05-09 11:21:41 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 5. 9  월23						월23 수34				 (10주 1일)
+// 
+// 컨테이너 - 다른 객체를 저장하는 객체
+// Associative Container
+//  set - 원소를 항상 정렬상태로 유지, 찾기, 제거, 추가( O(log n) )
+//      - set의 주요 동작
+//      - 내가 만든 type을 set에 넣으려면?
+//      - left, right를 가리키는 메모리를 필요로 하기에 원소당 16바이트씩 추가로 잡음
+// 
+// Unordered Associative Container
+// 
+// C++20 span
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <set>
+#include <vector>
+#include <numeric>
+#include <random>
+#include <format>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+std::random_device rd;
+std::default_random_engine dre{ rd() };
+
+// -------
+int main()
+// -------
+{
+	std::vector<int> v(100);
+	iota(v.begin(), v.end(), 1);
+	std::shuffle(v.begin(), v.end(), dre);
+	
+	//set은 key를 자동정렬한다, default값으로 less 정렬
+	std::set<int, std::greater<int>> s{ v.begin(), v.end() };
+
+	std::cout << "shuffle한 vector의 원소" << std::endl;
+	for (int n : v)
+		std::cout << std::format("{:4}", n);
+	std::cout << std::endl << std::endl;
+
+	std::cout << "set의 원소" << std::endl;
+	for (int n : s)
+		std::cout << std::format("{:4}", n);
+	std::cout << std::endl;
+
+	save("stl.cpp");
+} 파일 이름 : stl.cpp, 파일 크기 : 1050
+저장 시간 : 2022-05-09 11:39:35 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 5. 9  월23						월23 수34				 (10주 1일)
+// 
+// 컨테이너 - 다른 객체를 저장하는 객체
+// Associative Container
+//  set - 원소를 항상 정렬상태로 유지, 찾기, 제거, 추가( O(log n) )
+//      - set의 주요 동작
+//      - 내가 만든 type을 set에 넣으려면?
+//      - left, right를 가리키는 메모리를 필요로 하기에 원소당 16바이트씩 추가로 잡음
+// 
+// Unordered Associative Container
+// 
+// C++20 span
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <set>
+#include <fstream>
+#include <format>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+
+// -------
+int main()
+// -------
+{
+	// [문제] "stl.cpp" 의 단어를 set에 넣고 출력하시오
+
+	std::ifstream in{ "stl.cpp" };
+
+	std::set<std::string> s{ std::istream_iterator<std::string>{in}, {} };
+	
+	for (const std::string& data : s)
+		std::cout << std::format("{:^80}", data);
+	std::cout << std::endl;
+
+	save("stl.cpp");
+} 파일 이름 : stl.cpp, 파일 크기 : 1329
+저장 시간 : 2022-05-09 11:49:23 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 5. 9  월23						월23 수34				 (10주 1일)
+// 
+// 컨테이너 - 다른 객체를 저장하는 객체
+// Associative Container
+//  set - 원소를 항상 정렬상태로 유지, 찾기, 제거, 추가( O(log n) )
+//      - set의 주요 동작
+//      - 내가 만든 type을 set에 넣으려면?
+//      - left, right를 가리키는 메모리를 필요로 하기에 원소당 16바이트씩 추가로 잡음
+// 
+// Unordered Associative Container
+// 
+// C++20 span
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <set>
+#include <fstream>
+#include <format>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+
+// -------
+int main()
+// -------
+{
+	std::ifstream in{ "stl.cpp" };
+
+	std::set<std::string> s{ std::istream_iterator<std::string>{in}, {} };
+	
+	for (const std::string& data : s)
+		std::cout << std::format("{:^80}", data);
+	std::cout << std::endl;
+
+	// [문제] 단어를 입력받아 set에 있는지 없는지 출력하라.
+	save("stl.cpp");
+
+	while (true) {
+		std::cout << "찾을 단어는? ";
+		std::string word;
+		std::cin >> word;
+
+
+		auto p = s.find(word);
+
+		if (p == s.end())
+			std::cout << "찾는 단어가 없습니다." << std::endl;
+		else
+			std::cout << "찾는 단어가 있습니다" << std::endl;
+	}
+
+
+
+	
+} 파일 이름 : stl.cpp, 파일 크기 : 1285
+저장 시간 : 2022-05-09 11:52:43 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 5. 9  월23						월23 수34				 (10주 1일)
+// 
+// 컨테이너 - 다른 객체를 저장하는 객체
+// Associative Container
+//  set - 원소를 항상 정렬상태로 유지, 찾기, 제거, 추가( O(log n) )
+//      - set의 주요 동작
+//      - 내가 만든 type을 set에 넣으려면?
+//      - left, right를 가리키는 메모리를 필요로 하기에 원소당 16바이트씩 추가로 잡음
+// 
+// Unordered Associative Container
+// 
+// C++20 span
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <set>
+#include <fstream>
+#include <format>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+
+// -------
+int main()
+// -------
+{
+	std::ifstream in{ "stl.cpp" };
+
+	std::set<std::string> s{ std::istream_iterator<std::string>{in}, {} };
+	
+	for (const std::string& data : s)
+		std::cout << std::format("{:^80}", data);
+	std::cout << std::endl;
+
+	// [문제] 단어를 입력받아 set에 있는지 없는지 출력하라.
+	save("stl.cpp");
+
+	while (true) {
+		std::cout << "찾을 단어는? ";
+		std::string word;
+		std::cin >> word;
+
+		// 있는지 없는지 출력하라 -> C++20 연관 컨테이너 멤버 contains
+		std::cout << std::boolalpha << s.contains(word) << std::endl;
+	}
+
+} 파일 이름 : stl.cpp, 파일 크기 : 1412
+저장 시간 : 2022-05-09 12:00:57 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 5. 9  월23						월23 수34				 (10주 1일)
+// 
+// 컨테이너 - 다른 객체를 저장하는 객체
+// Associative Container
+//  set - 원소를 항상 정렬상태로 유지, 찾기, 제거, 추가( O(log n) )
+//      - set의 주요 동작
+//      - 내가 만든 type을 set에 넣으려면?
+//      - left, right를 가리키는 메모리를 필요로 하기에 원소당 16바이트씩 추가로 잡음
+// 
+// Unordered Associative Container
+// 
+// C++20 span
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <set>
+#include <fstream>
+#include <format>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+// -------
+int main()
+// -------
+{
+	std::ifstream in{ "stl.cpp" };
+
+	std::multiset<std::string> s{ std::istream_iterator<std::string>{in}, {} };
+	
+	for (const std::string& data : s)
+		std::cout << std::format("{:^80}", data);
+	std::cout << std::endl;
+
+	// [문제] 단어를 입력받아 multiset에 있다면 몇 개가 있는지 출력하라.
+	save("stl.cpp");
+
+	while (true) {
+		std::cout << "찾을 단어는? ";
+		std::string word;
+		std::cin >> word;
+
+		auto [lower, upper] = s.equal_range(word);		// structured-binding
+		if (lower == upper)
+			std::cout << "단어가 없습니다" << std::endl;
+		else
+			std::cout << word << "는 " << std::distance(lower, upper) << "개 있습니다" << std::endl;
+	}
+
+} 파일 이름 : stl.cpp, 파일 크기 : 1364
+저장 시간 : 2022-05-09 12:14:48 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 5. 9  월23						월23 수34				 (10주 1일)
+// 
+// 컨테이너 - 다른 객체를 저장하는 객체
+// Associative Container
+//  set - 원소를 항상 정렬상태로 유지, 찾기, 제거, 추가( O(log n) )
+//      - set의 주요 동작, 멤버 contains, 
+//      - 내가 만든 type을 set에 넣으려면?
+//      - left, right를 가리키는 메모리를 필요로 하기에 원소당 16바이트씩 추가로 잡음
+// 
+// Unordered Associative Container
+// 
+// C++20 span
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <set>
+#include <array>
+#include <random>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+std::default_random_engine dre;
+std::uniform_int_distribution<int> uidAlpha('a', 'z');
+std::uniform_int_distribution<int> uidNum(1, 10000);
+
+class Dog {
+	std::string name;	// 10글자 소문자
+	int num;			// 1~10000
+public:
+	Dog(){
+		for (int i = 0; i < 10; ++i)
+			name += uidAlpha(dre);
+		num = uidNum(dre);
+	}
+
+	void show() const {
+		std::cout << name << " - " << num << std::endl;
+	}
+};
+
+std::array<Dog, 1000> dogs;
+// -------
+int main()
+// -------
+{
+	for (const Dog& dog : dogs)
+		dog.show();
+
+	// class Dog를 set<Dog>에 넣고 출력하자
+	
+	//std::set<Dog> s{dogs.begin(), dogs.end()};
+
+	save("stl.cpp");
 } 

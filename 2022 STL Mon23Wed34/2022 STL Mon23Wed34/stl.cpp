@@ -1,43 +1,58 @@
 //-----------------------------------------------------------------------------
-// 2022. 5. 4  수34						월23 수34				 (9주 2일)
+// 2022. 5. 9  월23						월23 수34				 (10주 1일)
 // 
 // 컨테이너 - 다른 객체를 저장하는 객체
 // Associative Container
+//  set - 원소를 항상 정렬상태로 유지, 찾기, 제거, 추가( O(log n) )
+//      - set의 주요 동작, 멤버 contains, 
+//      - 내가 만든 type을 set에 넣으려면?
+//      - left, right를 가리키는 메모리를 필요로 하기에 원소당 16바이트씩 추가로 잡음
+// 
 // Unordered Associative Container
 // 
 // C++20 span
 //-----------------------------------------------------------------------------
 #include <iostream>
-#include <vector>
-#include <span>
+#include <set>
+#include <array>
+#include <random>
 #include "save.h"
 #include "STRING.h"
 
 extern bool 관찰;
 
-// 메모리가 contiguous인 자료구조를 일관된 방식으로 코딩하기 위한 span(view)
-void print(std::span<int> a);
+std::default_random_engine dre;
+std::uniform_int_distribution<int> uidAlpha('a', 'z');
+std::uniform_int_distribution<int> uidNum(1, 10000);
 
-void print(const std::span<int> a)
-{
-	std::cout << "스팬 - 전체 메모리 : " << a.size_bytes() << std::endl;
-	for (int n : a)
-		std::cout << n << std::endl;
-}
+class Dog {
+	std::string name;	// 10글자 소문자
+	int num;			// 1~10000
+public:
+	Dog(){
+		for (int i = 0; i < 10; ++i)
+			name += uidAlpha(dre);
+		num = uidNum(dre);
+	}
 
+	void show() const {
+		std::cout << name << " - " << num << std::endl;
+	}
 
+	
+};
+
+std::array<Dog, 1000> dogs;
 // -------
 int main()
 // -------
 {
-	std::vector<int> a{1, 2, 3, 4, 5};
+	for (const Dog& dog : dogs)
+		dog.show();
 
-	// [문제] print는 a를 인자로 받아 값을 전부 출력한다.
-	// p를 선언하고 정의하라
-	print(a);
-
-	int b[]{ 1,2,3,4,5,6,7,8,9,10 };
-	print(b);
+	// class Dog를 set<Dog>에 넣고 출력하자
+	
+	//std::set<Dog> s{dogs.begin(), dogs.end()};
 
 
 	//save("stl.cpp");
