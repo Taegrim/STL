@@ -6586,4 +6586,448 @@ int main()
 	//std::set<Dog> s{dogs.begin(), dogs.end()};
 
 	save("stl.cpp");
+} 파일 이름 : stl.cpp, 파일 크기 : 1800
+저장 시간 : 2022-05-11 11:43:52 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 5. 11  수34						월23 수34				 (10주 2일)
+// 
+// 컨테이너 - 다른 객체를 저장하는 객체
+// Associative Container
+//  set - 원소를 항상 정렬상태로 유지, 찾기, 제거, 추가( O(log n) )
+//      - set의 주요 동작, 멤버 contains,(C++20)
+//      - 내가 만든 type을 set에 넣으려면?
+//      - left, right를 가리키는 메모리를 필요로 하기에 원소당 16바이트씩 추가로 잡음
+// 
+// Unordered Associative Container
+// 
+// C++20 span
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <set>
+#include <array>
+#include <random>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+std::default_random_engine dre;
+std::uniform_int_distribution<int> uidAlpha('a', 'z');
+std::uniform_int_distribution<int> uidNum(1, 10000);
+
+class Dog {
+	std::string name;	// 10글자 소문자
+	int num;			// 1~10000
+public:
+	Dog(){
+		for (int i = 0; i < 10; ++i)
+			name += uidAlpha(dre);
+		num = uidNum(dre);
+	}
+
+	std::string getName() const {
+		return name;
+	}
+
+	int getNum() const {
+		return num;
+	}
+
+	bool operator<(const Dog& rhs) const {
+		return name < rhs.name;
+	}
+
+	void show() const {
+		std::cout << name << " - " << num << std::endl;
+	}
+};
+
+//bool operator<(const Dog& lhs, const Dog& rhs)
+//{
+//	return lhs.getName() < rhs.getName();
+//}
+
+std::array<Dog, 1000> dogs;
+// -------
+int main()
+// -------
+{
+	// 1. less<Dog>
+	// 2. operator<( Dog, Dog );
+	//  - Dog.operator<(Dog);
+	//  - operator<(Dog, Dog);
+	
+	// class Dog를 set<Dog>에 넣고 출력하자
+	// set<Dog>은 default name 오름차순 정렬한다.
+
+	std::set<Dog> s{dogs.begin(), dogs.end()};
+
+	for (const Dog& dog : s)
+		dog.show();
+
+
+	save("stl.cpp");
+} 파일 이름 : stl.cpp, 파일 크기 : 1689
+저장 시간 : 2022-05-11 11:46:47 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 5. 11  수34						월23 수34				 (10주 2일)
+// 
+// 컨테이너 - 다른 객체를 저장하는 객체
+// Associative Container
+//  set - 원소를 항상 정렬상태로 유지, 찾기, 제거, 추가( O(log n) )
+//      - set의 주요 동작, 멤버 contains,(C++20)
+//      - 내가 만든 type을 set에 넣으려면?
+//      - left, right를 가리키는 메모리를 필요로 하기에 원소당 16바이트씩 추가로 잡음
+// 
+// Unordered Associative Container
+// 
+// C++20 span
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <set>
+#include <array>
+#include <random>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+std::default_random_engine dre;
+std::uniform_int_distribution<int> uidAlpha('a', 'z');
+std::uniform_int_distribution<int> uidNum(1, 10000);
+
+class Dog {
+	std::string name;	// 10글자 소문자
+	int num;			// 1~10000
+public:
+	Dog(){
+		for (int i = 0; i < 10; ++i)
+			name += uidAlpha(dre);
+		num = uidNum(dre);
+	}
+
+	std::string getName() const {
+		return name;
+	}
+
+	int getNum() const {
+		return num;
+	}
+
+	bool operator<(const Dog& rhs) const {
+		return name < rhs.name;
+	}
+
+	void show() const {
+		std::cout << name << " - " << num << std::endl;
+	}
+};
+
+// -------
+int main()
+// -------
+{
+	// 1. less<Dog>
+	// 2. operator<( Dog, Dog );
+	//  - Dog.operator<(Dog);
+	//  - operator<(Dog, Dog);
+	
+	// class Dog를 set<Dog>에 넣고 출력하자
+	// set<Dog>은 default name 오름차순 정렬한다.
+
+	std::set<Dog> s;
+	for (int i = 0; i < 1'000; ++i)
+		s.emplace();
+
+	for (const Dog& dog : s)
+		dog.show();
+
+	save("stl.cpp");
+} 파일 이름 : stl.cpp, 파일 크기 : 1672
+저장 시간 : 2022-05-11 11:54:43 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 5. 11  수34						월23 수34				 (10주 2일)
+// 
+// 컨테이너 - 다른 객체를 저장하는 객체
+// Associative Container
+//  set - 원소를 항상 정렬상태로 유지, 찾기, 제거, 추가( O(log n) )
+//      - set의 주요 동작, 멤버 contains,(C++20)
+//      - 내가 만든 type을 set에 넣으려면?
+//      - left, right를 가리키는 메모리를 필요로 하기에 원소당 16바이트씩 추가로 잡음
+// 
+// Unordered Associative Container
+// 
+// C++20 span
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <set>
+#include <random>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+std::default_random_engine dre;
+std::uniform_int_distribution<int> uidAlpha('a', 'z');
+std::uniform_int_distribution<int> uidNum(1, 10000);
+
+class Dog {
+	std::string name;	// 10글자 소문자
+	int num;			// 1~10000
+public:
+	Dog(){
+		for (int i = 0; i < 10; ++i)
+			name += uidAlpha(dre);
+		num = uidNum(dre);
+	}
+
+	bool operator<(const Dog& rhs) const {
+		return name < rhs.name;
+	}
+
+	int getNum() const {
+		return num;
+	}
+
+	void show() const {
+		std::cout << name << " - " << num << std::endl;
+	}
+};
+
+auto func = [](const Dog& a, const Dog& b) {
+	return a.getNum() < b.getNum();
+};
+
+// -------
+int main()
+// -------
+{
+
+	// [문제] set에 정렬할 수 있는 타입을 지정해서 num 오름차순으로 정렬되게 하라
+	std::multiset< Dog, decltype(func) > s;
+
+	for (int i = 0; i < 1'000; ++i)
+		s.emplace();
+
+	for (const Dog& dog : s)
+		dog.show();
+	
+	std::cout << "set의 원소 수 - " << s.size() << std::endl;
+
+	save("stl.cpp");
+} 파일 이름 : stl.cpp, 파일 크기 : 1696
+저장 시간 : 2022-05-11 11:58:02 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 5. 11  수34						월23 수34				 (10주 2일)
+// 
+// 컨테이너 - 다른 객체를 저장하는 객체
+// Associative Container
+//  set - 원소를 항상 정렬상태로 유지, 찾기, 제거, 추가( O(log n) )
+//      - set의 주요 동작, 멤버 contains,(C++20)
+//      - 내가 만든 type을 set에 넣으려면? - 정렬타입을 지정해야 함
+//      - left, right를 가리키는 메모리를 필요로 하기에 원소당 16바이트씩 추가로 잡음
+// 
+// Unordered Associative Container
+// 
+// C++20 span
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <set>
+#include <random>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+std::default_random_engine dre;
+std::uniform_int_distribution<int> uidAlpha('a', 'z');
+std::uniform_int_distribution<int> uidNum(1, 10000);
+
+class Dog {
+	std::string name;	// 10글자 소문자
+	int num;			// 1~10000
+public:
+	Dog(){
+		for (int i = 0; i < 10; ++i)
+			name += uidAlpha(dre);
+		num = uidNum(dre);
+	}
+
+	bool operator<(const Dog& rhs) const {
+		return name < rhs.name;
+	}
+
+	int getNum() const {
+		return num;
+	}
+
+	void show() const {
+		std::cout << name << " - " << num << std::endl;
+	}
+};
+
+class func {
+public:
+	bool operator()(const Dog& a, const Dog& b) const {
+		return a.getNum() < b.getNum();
+	}
+};
+
+// -------
+int main()
+// -------
+{
+	// [문제] set에 정렬할 수 있는 타입을 지정해서 num 오름차순으로 정렬되게 하라
+	std::multiset< Dog, func> s;
+
+	for (int i = 0; i < 1'000; ++i)
+		s.emplace();
+
+	for (const Dog& dog : s)
+		dog.show();
+	
+	std::cout << "set의 원소 수 - " << s.size() << std::endl;
+
+	save("stl.cpp");
+} 파일 이름 : stl.cpp, 파일 크기 : 1077
+저장 시간 : 2022-05-11 12:16:20 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 5. 11  수34						월23 수34				 (10주 2일)
+// 
+// 컨테이너 - 다른 객체를 저장하는 객체
+// Associative Container
+//  set - 원소를 항상 정렬상태로 유지, 찾기, 제거, 추가( O(log n) )
+//      - set의 주요 동작, 멤버 contains,(C++20)
+//      - 내가 만든 type을 set에 넣으려면? - 정렬타입을 지정해야 함
+// 
+// Unordered Associative Container
+// 
+// C++20 span
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <set>
+#include <string>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+class Comp {
+public:
+	bool operator()(const std::string& a, const std::string& b) const {
+		return a.size() < b.size();
+	}
+};
+
+// [문제] 키보드에서 입력한 단어를 길이순으로 정렬하여 출력하라
+// -------
+int main()
+// -------
+{
+	std::multiset<std::string, Comp> s{ std::istream_iterator<std::string>{std::cin}, {} };
+
+	for (const std::string& str : s)
+		std::cout << str << std::endl;
+	
+	save("stl.cpp");
+} 파일 이름 : stl.cpp, 파일 크기 : 1363
+저장 시간 : 2022-05-11 12:57:51 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 5. 11  수34						월23 수34				 (10주 2일)
+// 
+// 컨테이너 - 다른 객체를 저장하는 객체
+// Associative Container
+//  map
+// 
+// Unordered Associative Container
+// 
+// C++20 span
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <map>
+#include <vector>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+// -------
+int main()
+// -------
+{
+	save("stl.cpp");
+
+	// 만화제목과 등장인물들
+	std::map<std::string, std::vector<std::string>> comics{ 
+		{ "원펀맨", { "사이타마", "제노스", "가로우", "킹" } },
+		{ "원피스", { "루피", "우솦", "쵸파", "나미" } },
+		{ "바벨2세", { "포세이돈", "로프로스", "로뎀" } },
+		{ "베르세르크", {"그리피스", "가츠"} }
+	};
+
+	// 만화 제목을 입력하면 등장인물들을 출력하라.
+	while (true) {
+		std::cout << "만화책을 입력하세요 : ";
+		std::string title;
+		std::cin >> title;
+
+		// 있으면 출력하라
+		auto p = comics.find(title);
+		if (p == comics.end())
+			std::cout << "찾는 만화책이 없습니다." << std::endl;
+		else {
+			std::cout << title << " - ";
+			for (const std::string& character : p->second)
+				std::cout << character << " ";
+			std::cout << std::endl << std::endl;
+		}
+	}
+
+} 파일 이름 : stl.cpp, 파일 크기 : 818
+저장 시간 : 2022-05-11 13:16:54 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 5. 11  수34						월23 수34				 (10주 2일)
+// 
+// 컨테이너 - 다른 객체를 저장하는 객체
+// Associative Container
+//  map
+// 
+// Unordered Associative Container
+// 
+// C++20 span
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <fstream>
+#include <map>
+#include <vector>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+// -------
+int main()
+// -------
+{
+	//[문제] "stl.cpp"의 소문자 갯수를 세서 출력하라
+	std::ifstream in{ "stl.cpp" };
+
+	std::map<char, int> cim;
+
+	char c;
+	while (in >> c)
+		if ( std::islower(c))
+			cim[c]++;
+	
+	for (auto [c, num] : cim)
+		std::cout << c << " - " << num << std::endl;
+
+	save("stl.cpp");
 } 
