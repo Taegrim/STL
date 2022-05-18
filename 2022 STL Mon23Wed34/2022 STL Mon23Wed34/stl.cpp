@@ -1,17 +1,21 @@
 //-----------------------------------------------------------------------------
-// 2022. 5. 16  월23						월23 수34				 (11주 1일)
+// 2022. 5. 18  수34						월23 수34				 (11주 1일)
 // 
-// 컨테이너 - 다른 객체를 저장하는 객체
-// Associative Container
-//  map
+// 알고리즘
+// - non-modifying sequence
+// - modifying sequence
+// - partitioning
+// - sorting
+//		nth_element
+//		partial_sort
+//		sort
+//		stable_sort
+// - binary search(on sorted ranges)
 // 
-// Unordered Associative Container
 // 
-// C++20 span
 // 6월 15일 (15주 2일 / 수요일) 기말 시험
 //-----------------------------------------------------------------------------
 #include <iostream>
-#include <fstream>
 #include "save.h"
 #include "STRING.h"
 
@@ -22,6 +26,4 @@ int main()
 // -------
 {
 	//save("stl.cpp");
-	
-	
 } 

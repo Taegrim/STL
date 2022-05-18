@@ -112,6 +112,11 @@ public:
 		return num < rhs.num;
 	}
 
+	// 2022. 5. 18 unordered_set이 요구하는 == 연산자
+	bool operator==(const STRING& rhs) const {
+		return std::string(begin(), end()) == std::string(rhs.begin(), rhs.end());
+	}
+
 	// 2022. 4. 27 begin()/end() 제공, const를 붙일 것
 	iterator begin() const {
 		return iterator{ p };
