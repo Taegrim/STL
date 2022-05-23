@@ -7686,3 +7686,273 @@ int main()
 {
 	save("stl.cpp");
 } 
+파일 이름 : stl.cpp, 파일 크기 : 1054
+저장 시간 : 2022-05-23 11:34:18 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 5. 23  월23						월23 수34				 (12주 1일)
+// 
+// 알고리즘
+// 
+// 6월 15일 (15주 2일 / 수요일) 기말 시험
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+template<typename InputIter, typename UnaryPredicate>
+bool allof(InputIter first, InputIter last, UnaryPredicate p)
+{
+	while (first != last) {
+		if (!p(*first))
+			return false;
+		++first;
+	}
+	return true;
+
+	//return ( std::find_if_not(first, last, p) ) == last;
+}
+
+// -------
+int main()
+// -------
+{
+	std::vector<STRING> v{ "STL", "Algorithm", "Library" };
+
+	// v의 원소들이 전부 첫글자가 대문자니?
+
+	if (allof(v.begin(), v.end(), [](const STRING& s) { return isupper( *s.begin() ); }))
+		std::cout << "전부 대문자 입니다" << std::endl;
+	else
+		std::cout << "전부 대문자는 아닙니다" << std::endl;
+	
+
+	save("stl.cpp");
+} 
+파일 이름 : stl.cpp, 파일 크기 : 834
+저장 시간 : 2022-05-23 11:45:51 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 5. 23  월23						월23 수34				 (12주 1일)
+// 
+// 알고리즘
+// 
+// 6월 15일 (15주 2일 / 수요일) 기말 시험
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <thread>
+#include <format>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+// -------
+int main()
+// -------
+{
+	save("stl.cpp");
+
+	std::string s{ "Son strikes heavy blow to Liverpool's quadruple dreams " };
+
+	// [문제] 전광판으로 만들어라. 흘러가게 출력
+
+	for(int i = 0; i < 100; ++i){
+		std::cout << std::format("{:^79}", s) << "\r";
+		using namespace std::literals;
+		std::this_thread::sleep_for(200ms);
+		std::rotate(s.begin(), s.begin() + 1, s.end());
+		
+	}
+
+	
+} 
+파일 이름 : stl.cpp, 파일 크기 : 832
+저장 시간 : 2022-05-23 11:47:09 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 5. 23  월23						월23 수34				 (12주 1일)
+// 
+// 알고리즘
+// 
+// 6월 15일 (15주 2일 / 수요일) 기말 시험
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <thread>
+#include <format>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+// -------
+int main()
+// -------
+{
+	save("stl.cpp");
+
+	std::string s{ "Son strikes heavy blow to Liverpool's quadruple dreams " };
+
+	// [문제] 전광판으로 만들어라. 흘러가게 출력
+
+	for(int i = 0; i < 100; ++i){
+		std::cout << std::format("{:^79}", s) << "\r";
+		using namespace std::literals;
+		std::this_thread::sleep_for(200ms);
+		std::rotate(s.begin(), s.end() - 1, s.end());
+		
+	}
+
+	
+} 
+파일 이름 : stl.cpp, 파일 크기 : 863
+저장 시간 : 2022-05-23 11:54:47 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 5. 23  월23						월23 수34				 (12주 1일)
+// 
+// 알고리즘
+// 
+// 6월 15일 (15주 2일 / 수요일) 기말 시험
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+// -------
+int main()
+// -------
+{
+	// count와 count_if
+
+	std::vector<int> v{ 1,2,3,4,5,6,7,8,9,10,3,3 };
+
+	// count는 원하는 value의 개수를 센다
+	// [문제] v에 3이 몇 개 있나?
+
+	std::cout << std::count(v.begin(), v.end(), 3) << std::endl;
+	
+	// count_if는 condition에 맞는 원소의 수를 센다
+	// [문제] v의 홀수는 몇 개 인가?
+
+	std::cout << std::count_if(v.begin(), v.end(), [](int n) {return n % 2; }) << std::endl;
+
+
+	save("stl.cpp");
+} 
+파일 이름 : stl.cpp, 파일 크기 : 753
+저장 시간 : 2022-05-23 12:00:16 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 5. 23  월23						월23 수34				 (12주 1일)
+// 
+// 알고리즘
+// 
+// 6월 15일 (15주 2일 / 수요일) 기말 시험
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+// -------
+int main()
+// -------
+{
+	// mismatch - 두 범위에서 달라지는 부분을 찾는다.
+
+	std::string s1{ "1234567890"  };
+	std::string s2{ "123456779012345" };
+
+	auto [s1_iter, s2_iter] = std::mismatch(s1.begin(), s1.end(), s2.begin());
+	
+	std::cout << *s1_iter << std::endl;
+	std::cout << *s2_iter << std::endl;
+
+	save("stl.cpp");
+} 
+파일 이름 : stl.cpp, 파일 크기 : 735
+저장 시간 : 2022-05-23 12:06:25 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 5. 23  월23						월23 수34				 (12주 1일)
+// 
+// 알고리즘
+// 
+// 6월 15일 (15주 2일 / 수요일) 기말 시험
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+// -------
+int main()
+// -------
+{
+	// search - 어떤 구간에서 원하는 구간을 찾는다
+
+	std::string s1{ "abcd thethexx thetye" };
+	std::string s2{ "thex" };
+
+	auto p = std::search(s1.begin(), s1.end(), s2.begin(), s2.end());
+	std::string result{ p, s1.end() };
+
+	std::cout << result << std::endl;
+
+	save("stl.cpp");
+} 
+파일 이름 : stl.cpp, 파일 크기 : 712
+저장 시간 : 2022-05-23 12:13:26 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 5. 23  월23						월23 수34				 (12주 1일)
+// 
+// 알고리즘
+// 
+// 6월 15일 (15주 2일 / 수요일) 기말 시험
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+// -------
+int main()
+// -------
+{
+	// erase-remove idiom
+	std::vector<int> v { 1,2,3,4,5,6 };
+
+	// v에서 홀수를 삭제하라
+
+	// auto p = std::remove_if(v.begin(), v.end(), [](int n) { return n % 2; });
+	// v.erase(p, v.end());
+	
+	// C++20에서는 전역 erase 함수를 제공한다.
+	std::erase_if(v, [](int n) { return n % 2; });
+
+	for (int n : v)
+		std::cout << n << std::endl;
+
+	save("stl.cpp");
+} 
