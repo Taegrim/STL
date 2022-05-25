@@ -7956,3 +7956,414 @@ int main()
 
 	save("stl.cpp");
 } 
+파일 이름 : stl.cpp, 파일 크기 : 726
+저장 시간 : 2022-05-25 11:41:07 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 5. 25  수34						월23 수34				 (12주 2일)
+// 
+// 알고리즘 - 어떤 것이 있나 다 살펴본다 - C++ reference
+// 
+// 6월 15일 (15주 2일 / 수요일) 기말 시험
+// 6월 20일 (16주 1일 / 월요일) 끝
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+// -------
+int main()
+// -------
+{
+	std::vector<int> v{ 1, 2, 3, 4, 5 };
+
+	v.erase( std::shift_left(v.begin(), v.end(), 1), v.end() );
+
+	for (int n : v)
+		std::cout << n << " ";
+	std::cout << std::endl;
+	
+
+	save("stl.cpp");
+} 
+파일 이름 : stl.cpp, 파일 크기 : 1005
+저장 시간 : 2022-05-25 11:47:35 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 5. 25  수34						월23 수34				 (12주 2일)
+// 
+// 알고리즘 - 어떤 것이 있나 다 살펴본다 - C++ reference
+// 
+// 6월 15일 (15주 2일 / 수요일) 기말 시험
+// 6월 20일 (16주 1일 / 월요일) 끝
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <random>
+#include <numeric>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+std::random_device rd;
+std::default_random_engine dre(rd());
+
+// -------
+int main()
+// -------
+{
+	std::vector<int> v(45);
+	std::iota(v.begin(), v.end(), 1);
+	
+	for (int n : v)
+		std::cout << n << " ";
+	std::cout << std::endl;
+		
+	
+	// 임의의 6개 숫자를 골라 출력한다.
+	std::cout << "이번 주에 사야할 숫자 " << std::endl;
+	std::sample(v.begin(), v.end(), std::ostream_iterator<int>{ std::cout, " " }, 6, dre ); 
+	std::cout << std::endl;
+
+
+	save("stl.cpp");
+} 
+파일 이름 : stl.cpp, 파일 크기 : 870
+저장 시간 : 2022-05-25 11:52:13 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 5. 25  수34						월23 수34				 (12주 2일)
+// 
+// 알고리즘 - 어떤 것이 있나 다 살펴본다 - C++ reference
+// 
+// 6월 15일 (15주 2일 / 수요일) 기말 시험
+// 6월 20일 (16주 1일 / 월요일) 끝
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <random>
+#include <numeric>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+std::random_device rd;
+std::default_random_engine dre(rd());
+
+// -------
+int main()
+// -------
+{
+	std::vector<int> v{ 1, 2, 3, 3, 3, 4, 5, 5, 3 };
+
+	// unique 는 인접한 객체들을 지움
+	v.erase( std::unique( v.begin(), v.end() ), v.end() );
+
+	for (int n : v)
+		std::cout << n << " ";
+	std::cout << std::endl;
+
+	save("stl.cpp");
+} 
+파일 이름 : stl.cpp, 파일 크기 : 1628
+저장 시간 : 2022-05-25 12:12:54 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 5. 25  수34						월23 수34				 (12주 2일)
+// 
+// 알고리즘 - 어떤 것이 있나 다 살펴본다 - C++ reference
+// 
+// sorting 관련 알고리즘을 잘 살펴본다 - complexity 순서로 살펴본다
+//  partition(sorting은 아님)
+//  nth_element
+//  partial_sort
+//  sort
+//  stable_sort
+// 
+// 6월 15일 (15주 2일 / 수요일) 기말 시험
+// 6월 20일 (16주 1일 / 월요일) 끝
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <numeric>
+#include <random>
+#include <format>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+std::random_device rd;
+std::default_random_engine dre(rd());
+
+template<typename InputIter>
+void print(InputIter begin, InputIter end)
+{
+	while (begin != end) {
+		std::cout << std::format("{:4}", *begin);
+		begin++;
+	}
+	std::cout << std::endl;
+}
+
+// -------
+int main()
+// -------
+{
+	// 1부터 100까지 값을 저장하는 vector
+	
+	std::vector<int> v(100);
+	std::iota(v.begin(), v.end(), 1);
+
+	std::cout << "vector<int>의 원소들" << std::endl;
+	print(v.begin(), v.end());
+
+	{	// partition
+		std::shuffle(v.begin(), v.end(), dre);
+		std::cout << "partition 하기 전" << std::endl;
+		print(v.begin(), v.end());
+
+		// [문제] 홀짝으로 나눠라 홀수와 짝수를 따로 출력하라
+		auto p = std::partition(v.begin(), v.end(), [](int n) { return n % 2; });
+
+		std::cout << "홀수" << std::endl;
+		print(v.begin(), p);
+		std::cout << "짝수" << std::endl;
+		print(p, v.end());
+	}
+
+
+
+	save("stl.cpp");
+} 
+파일 이름 : stl.cpp, 파일 크기 : 2745
+저장 시간 : 2022-05-25 12:50:10 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 5. 25  수34						월23 수34				 (12주 2일)
+// 
+// 알고리즘 - 어떤 것이 있나 다 살펴본다 - C++ reference
+// 
+// sorting 관련 알고리즘을 잘 살펴본다 - complexity 순서로 살펴본다
+//  partition(sorting은 아님)
+//  nth_element	
+//  partial_sort
+//  sort
+//  stable_sort	
+// 
+// 6월 15일 (15주 2일 / 수요일) 기말 시험
+// 6월 20일 (16주 1일 / 월요일) 끝
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <numeric>
+#include <random>
+#include <format>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+std::random_device rd;
+std::default_random_engine dre(rd());
+
+template<typename InputIter>
+void print(InputIter begin, InputIter end)
+{
+	while (begin != end) {
+		std::cout << std::format("{:4}", *begin);
+		begin++;
+	}
+	std::cout << std::endl << std::endl;
+}
+
+// -------
+int main()
+// -------
+{
+	// 1부터 100까지 값을 저장하는 vector
+	
+	std::vector<int> v(100);
+	std::iota(v.begin(), v.end(), 1);
+
+	std::cout << "vector<int>의 원소들" << std::endl;
+	print(v.begin(), v.end());
+
+	{	// partition - 조건에 맞는 것과 아닌 것을 분리
+		std::shuffle(v.begin(), v.end(), dre);
+		std::cout << "partition 하기 전" << std::endl;
+		print(v.begin(), v.end());
+
+		// [문제] 홀짝으로 나눠라 홀수와 짝수를 따로 출력하라
+		auto p = std::partition(v.begin(), v.end(), [](int n) { return n % 2; });
+
+		std::cout << "홀수" << std::endl;
+		print(v.begin(), p);
+		std::cout << "짝수" << std::endl;
+		print(p, v.end());
+	}
+
+	{	// nth_element - 20등까지는 통과 ( 20등까지 순서는 상관없다 )
+		std::shuffle(v.begin(), v.end(), dre);
+		std::cout << "nth_element 하기 전" << std::endl;
+		print(v.begin(), v.end());
+
+		// [문제] 20등까지와 나머지를 분리해서 출력하라
+		std::nth_element(v.begin(), v.begin() + 20, v.end());
+
+		std::cout << "nth_element 이후 - 20등" << std::endl;
+		print(v.begin(), v.end());
+	}
+
+	{	// partial_sort - 필요한 순서까지만 정렬
+		std::shuffle(v.begin(), v.end(), dre);
+		std::cout << "partial_sort 하기 전" << std::endl;
+		print(v.begin(), v.end());
+
+		// [문제] 20등까지만 정렬하라
+		std::partial_sort(v.begin(), v.begin() + 20, v.end());
+
+		std::cout << "partial_sort 이후 - 20등까지만 정렬" << std::endl;
+		print(v.begin(), v.end());
+	}
+
+	{	// sort - 전체 정렬
+		std::shuffle(v.begin(), v.end(), dre);
+		std::cout << "sort 하기 전" << std::endl;
+		print(v.begin(), v.end());
+
+		// [문제] 오름차순(ascending order)으로 정렬하라
+		std::sort(v.begin(), v.end());
+		std::cout << "sort 이후" << std::endl;
+		print(v.begin(), v.end());
+	}
+
+
+	save("stl.cpp");
+} 
+파일 이름 : stl.cpp, 파일 크기 : 1759
+저장 시간 : 2022-05-25 13:04:52 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 5. 25  수34						월23 수34				 (12주 2일)
+// 
+// 알고리즘 - 어떤 것이 있나 다 살펴본다 - C++ reference
+// 
+// sorting 관련 알고리즘을 잘 살펴본다 - complexity 순서로 살펴본다
+//  partition(sorting은 아님)
+//  nth_element	
+//  partial_sort
+//  sort
+//  stable_sort	
+// 
+// 6월 15일 (15주 2일 / 수요일) 기말 시험
+// 6월 20일 (16주 1일 / 월요일) 끝
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <numeric>
+#include <random>
+#include <format>
+#include <string>
+#include "save.h"
+#include "STRING.h"
+
+extern bool 관찰;
+
+std::default_random_engine dre;
+std::uniform_int_distribution<int> uid{ 1, 10 };
+std::uniform_int_distribution<int> uidName{ 'A', 'Z' };
+
+struct Dog {
+	std::string name;
+	int n;
+
+	Dog() {
+		for (int i = 0; i < 5; ++i)
+			name += uidName(dre);
+		n = uid(dre);
+	}
+
+	void show() const {
+		std::cout << name << " - " << std::format("{:4d}", n) << std::endl;
+	}
+};
+
+// -------
+int main()
+// -------
+{
+	std::vector<Dog> v(100);
+
+	for (const Dog& dog : v)
+		dog.show();
+
+	// name 오름차순 정렬 후 출력
+	std::sort(v.begin(), v.end(), [](const Dog& a, const Dog& b) {
+		return a.name < b.name;
+		});
+
+	std::cout << std::endl << "이름 오름차순" << std::endl;
+	for (const Dog& dog : v)
+		dog.show();
+
+	// n 오름차순 정렬 후 출력, stable_sort는 앞서 정렬한 이름 순서가 유지됨
+	std::stable_sort(v.begin(), v.end(), [](const Dog& a, const Dog& b) {
+		return a.n < b.n;
+		});
+
+	std::cout << std::endl << "n값 오름차순" << std::endl;
+	for (const Dog& dog : v)
+		dog.show();	
+
+	save("stl.cpp");
+} 
+파일 이름 : stl.cpp, 파일 크기 : 804
+저장 시간 : 2022-05-25 13:19:52 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 5. 25  수34						월23 수34				 (12주 2일)
+// 
+// 
+// 6월 15일 (15주 2일 / 수요일) 기말 시험
+// 6월 20일 (16주 1일 / 월요일) 끝
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <vector>
+#include "save.h"
+#include "STRING.h"
+
+template<typename Iter>
+long long dist(Iter b, Iter e)
+{
+	return e - b;
+}
+
+
+// -------
+int main()
+// -------
+{
+	std::vector<int> v{ 1, 2, 3, 4, 5 };
+	
+	// 템플릿 함수 dist를 작성하라
+	std::cout << dist(v.begin(), v.end()) << std::endl;
+	std::cout << dist(v.end(), v.begin()) << std::endl;
+
+	std::cout << dist(1, 100) << std::endl;
+
+	// 반복자만 함수의 결과를 리턴하는 방법은?
+
+	save("stl.cpp");
+} 
