@@ -8367,3 +8367,397 @@ int main()
 
 	save("stl.cpp");
 } 
+파일 이름 : stl.cpp, 파일 크기 : 1373
+저장 시간 : 2022-05-30 10:52:43 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 5. 30  월23						월23 수34				 (13주 1일)
+// 
+// C++20의 4가지 핵심 변화
+// range / module / concepts / coroutine
+// 
+// type-traits
+// range - view
+// 
+// 
+// 6월 6일						수업해야 함
+// 6월 15일 (15주 2일 / 수요일) 기말 시험
+// 6월 20일 (16주 1일 / 월요일) 끝
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <vector>
+#include "save.h"
+#include "STRING.h"
+
+template<typename Iter>
+long long dist(Iter b, Iter e)
+{
+	// 만일 전달되는 반복자가 random_access 반복자라면 두 반복자 사이의 거리는
+	// if( Iter가 random_access라면 )
+	if (std::is_same_v< typename std::iterator_traits<Iter>::iterator_category, std::random_access_iterator_tag>) {
+		std::cout << "전달된 Iter는 random_access 반복자이다." << std::endl;
+		return e - b;
+	}
+
+	// 그렇지 않다면 반복자간의 거리는 몇 걸음인지 세 보는 수밖엔 없다.
+	int step{ };
+	while (b != e) {
+		++step;
+		++b;
+	}
+	return step;
+}
+
+
+// -------
+int main()
+// -------
+{
+	// 알고리즘 함수 - 반복자를 인자로 받는다.
+	// 알고리즘에 따라서 더 효율적인 방법으로 구현 가능한 경우가 있다.
+
+	std::vector<int> v{ 1,2,3,4 };
+	std::cout << "vector의 거리 - " << dist<std::vector<int>::iterator>(v.begin(), v.end()) << std::endl;
+
+	save("stl.cpp");
+} 
+파일 이름 : stl.cpp, 파일 크기 : 951
+저장 시간 : 2022-05-30 11:10:33 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 5. 30  월23						월23 수34				 (13주 1일)
+// 
+// C++20의 4가지 핵심 변화
+// range / module / concepts / coroutine
+// 
+// type-traits
+// range - view
+// 
+// 
+// 6월 6일						수업해야 함
+// 6월 15일 (15주 2일 / 수요일) 기말 시험
+// 6월 20일 (16주 1일 / 월요일) 끝
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <vector>
+#include <string>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std::literals;
+
+template<typename T>
+T add(T a, T b)
+{
+	// T가 산술연산 가능하다면 + 계산
+	if (std::is_arithmetic_v<T>) {
+		std::cout << "산술연산 가능 타입" << std::endl;
+		return a + b;
+	}
+	// 아닌 경우엔 어떻게??
+	return a;
+}
+
+// -------
+int main()
+// -------
+{
+	// [문제] 템플릿 함수 add를 정의하라.
+	std::cout << add(1.1, 2.2) << std::endl;
+
+	save("stl.cpp");
+} 
+파일 이름 : stl.cpp, 파일 크기 : 1589
+저장 시간 : 2022-05-30 11:23:22 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 5. 30  월23						월23 수34				 (13주 1일)
+// 
+// C++20의 4가지 핵심 변화
+// range / module / concepts / coroutine
+// 
+// type-traits
+// range - view
+// 
+// 
+// 6월 6일						수업해야 함
+// 6월 15일 (15주 2일 / 수요일) 기말 시험
+// 6월 20일 (16주 1일 / 월요일) 끝
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <vector>
+#include <list>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std::literals;
+
+template<typename Iter>
+long long dist(Iter b, Iter e)
+{
+	// 만일 전달되는 반복자가 random_access 반복자라면 두 반복자 사이의 거리는
+	// if( Iter가 random_access라면 )
+	if constexpr (std::is_same_v< typename std::iterator_traits<Iter>::iterator_category, std::random_access_iterator_tag>) {
+		std::cout << "전달된 Iter는 random_access 반복자이다." << std::endl;
+		return e - b;
+	}
+	// constexpr 으로 선택적 소스 생성을 함
+	// 조건에 맞지 않으면 소스코드를 생성하지 않음
+
+	// 그렇지 않다면 반복자간의 거리는 몇 걸음인지 세 보는 수밖엔 없다.
+	int step{ };
+	while (b != e) {
+		++step;
+		++b;
+	}
+	return step;
+}
+
+
+// -------
+int main()
+// -------
+{
+	// dist를 random_access 반복자가 아닌 인자로 호출할 떄
+	// 템플릿 코드 전체가 생성되므로 e - b 는 컴파일되지 않는다.
+	// C++17 이전 -> tag dispatching 으로 해결했다.
+	// C++17 이후 -> constexpr if 로 해결할 수 있다.
+	
+	std::list<int> lst{ 1,2,3 };
+	std::cout <<  dist(lst.begin(), lst.end()) << std::endl;
+
+	
+	save("stl.cpp");
+} 
+파일 이름 : stl.cpp, 파일 크기 : 1563
+저장 시간 : 2022-05-30 11:59:36 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 5. 30  월23						월23 수34				 (13주 1일)
+// 
+// C++20의 4가지 핵심 변화
+// range / module / concepts / coroutine
+// 
+// type-traits
+// range - view
+// 
+// 
+// 6월 6일						수업해야 함
+// 6월 15일 (15주 2일 / 수요일) 기말 시험
+// 6월 20일 (16주 1일 / 월요일) 끝
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <vector>
+#include <list>
+#include <iterator>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std::literals;
+
+template<typename T, std::output_iterator<T> Iter>
+long long dist(Iter b, Iter e)
+{
+	// 만일 전달되는 반복자가 random_access 반복자라면 두 반복자 사이의 거리는
+	// if( Iter가 random_access라면 )
+	if constexpr (std::is_same_v< typename std::iterator_traits<Iter>::iterator_category, std::random_access_iterator_tag>) {
+		std::cout << "전달된 Iter는 random_access 반복자이다." << std::endl;
+		return e - b;
+	}
+	// constexpr 으로 선택적 소스 생성을 함
+	// 조건에 맞지 않으면 소스코드를 생성하지 않음
+
+	// 그렇지 않다면 반복자간의 거리는 몇 걸음인지 세 보는 수밖엔 없다.
+	int step{ };
+	while (b != e) {
+		++step;
+		++b;
+	}
+	return step;
+}
+
+
+// -------
+int main()
+// -------
+{
+	// int를 넘기면 int는 반복자가 없으므로 에러가 발생함
+	// 타입을 템플릿에 넘길 때 iterator 타입인지를 판정하는 것이 필요함
+	std::list lst{ 1,2,3 };
+	std::cout << dist<int, std::list<int>::iterator>(lst.begin(), lst.end()) << std::endl;
+
+
+	save("stl.cpp");
+} 
+파일 이름 : stl.cpp, 파일 크기 : 1516
+저장 시간 : 2022-05-30 12:01:55 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 5. 30  월23						월23 수34				 (13주 1일)
+// 
+// C++20의 4가지 핵심 변화
+// range / module / concepts / coroutine
+// 
+// type-traits
+// range - view
+// 
+// 
+// 6월 6일						수업해야 함
+// 6월 15일 (15주 2일 / 수요일) 기말 시험
+// 6월 20일 (16주 1일 / 월요일) 끝
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <vector>
+#include <list>
+#include <iterator>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std::literals;
+
+template<std::input_iterator Iter>
+long long dist(Iter b, Iter e)
+{
+	// 만일 전달되는 반복자가 random_access 반복자라면 두 반복자 사이의 거리는
+	// if( Iter가 random_access라면 )
+	if constexpr (std::is_same_v< typename std::iterator_traits<Iter>::iterator_category, std::random_access_iterator_tag>) {
+		std::cout << "전달된 Iter는 random_access 반복자이다." << std::endl;
+		return e - b;
+	}
+	// constexpr 으로 선택적 소스 생성을 함
+	// 조건에 맞지 않으면 소스코드를 생성하지 않음
+
+	// 그렇지 않다면 반복자간의 거리는 몇 걸음인지 세 보는 수밖엔 없다.
+	int step{ };
+	while (b != e) {
+		++step;
+		++b;
+	}
+	return step;
+}
+
+
+// -------
+int main()
+// -------
+{
+	// int를 넘기면 int는 반복자가 없으므로 에러가 발생함
+	// 타입을 템플릿에 넘길 때 iterator 타입인지를 판정하는 것이 필요함
+	std::list lst{ 1,2,3 };
+	std::cout << dist(lst.begin(), lst.end()) << std::endl;
+
+
+	save("stl.cpp");
+} 
+파일 이름 : stl.cpp, 파일 크기 : 1147
+저장 시간 : 2022-05-30 12:09:17 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 5. 30  월23						월23 수34				 (13주 1일)
+// 
+// C++20의 4가지 핵심 변화
+// range / module / concepts / coroutine
+// 
+// type-traits
+// range - view
+// 
+// 
+// 6월 6일						수업해야 함
+// 6월 15일 (15주 2일 / 수요일) 기말 시험
+// 6월 20일 (16주 1일 / 월요일) 끝
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <vector>		// contiguous
+#include <deque>		// random_access
+#include <concepts>
+#include <iterator>
+#include "save.h"
+#include "STRING.h"
+
+using namespace std::literals;
+
+template<std::input_iterator Iter>
+void f(Iter i)
+{
+	if ( std::contiguous_iterator<Iter> )
+		std::cout << "contiguous 반복자가 전달되었다" << std::endl;
+	else
+		std::cout << "contiguous 반복자가 아니다" << std::endl;
+}
+
+
+// -------
+int main()
+// -------
+{
+	// [문제] contiguous 반복자일떄만 화면에 "contiguous 반복자가 전달되었다"	라고
+	// 출력하는 템플릿 함수를 정의하라
+	
+	std::vector<int> v;
+	std::deque<int> d;
+
+	f(v.begin());
+	f(d.begin());
+
+
+	save("stl.cpp");
+} 
+파일 이름 : stl.cpp, 파일 크기 : 1157
+저장 시간 : 2022-05-30 12:17:58 GMT+9
+
+//-----------------------------------------------------------------------------
+// 2022. 5. 30  월23						월23 수34				 (13주 1일)
+// 
+// C++20의 4가지 핵심 변화
+// range / module / concepts / coroutine
+// 
+// type-traits
+// range - view
+// 
+// 
+// 6월 6일						수업해야 함
+// 6월 15일 (15주 2일 / 수요일) 기말 시험
+// 6월 20일 (16주 1일 / 월요일) 끝
+//-----------------------------------------------------------------------------
+#include <iostream>
+#include <ranges>
+#include <random>
+#include "save.h"
+#include "STRING.h"
+
+std::default_random_engine dre;
+std::uniform_int_distribution<> uid{ 1,100 };
+std::uniform_int_distribution<> uidName{ 'a', 'z' };
+
+using namespace std::literals;
+
+struct Dog {
+	std::string name;
+	int n;
+
+	Dog() {
+		n = uid(dre);
+		for (int i = 0; i < 5; ++i)
+			name += uidName(dre);
+	}
+};
+
+// -------
+int main()
+// -------
+{
+	std::vector<Dog> v(100);
+
+	for (const Dog& dog : v)
+		std::cout << dog.name << " - " << dog.n << std::endl;
+
+	std::ranges::sort(v, {}, &Dog::n);
+
+	std::ranges::sort( v, {}, &Dog::name );
+
+	for (const Dog& dog : v)
+		std::cout << dog.name << " - " << dog.n << std::endl;
+
+
+	save("stl.cpp");
+} 
